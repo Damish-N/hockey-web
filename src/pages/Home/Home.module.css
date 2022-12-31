@@ -1,0 +1,45 @@
+.background{
+    height: 100vh;
+    width: 100%;
+    background-image: url("/src/asserts/bg_new_cham.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    image-rendering: smooth;
+    filter: blur(0.03rem) brightness(25%) contrast(80%);
+}
+
+.heading h5{
+    text-align: left;
+    position: absolute;
+    width: 669px;
+    height: 324px;
+    left: 120px;
+    top: 5rem;
+    font-family: 'Bebas Neue', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 90px;
+    line-height: 108px;
+    color: #F6A201;
+    z-index: 200;
+    filter: contrast(100%) brightness(100%);
+}
+.headingBtn{
+    cursor: pointer;
+    position: absolute;
+    width: 249px;
+    height: 77px;
+    left: 120px;
+    top: 565px;
+    background: #F6A201;
+    font-family: 'Bebas Neue', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    color: #750077;
+}
+.headingBtn:hover{
+    background-color: #750077;
+    color: #F6A201;
+}
