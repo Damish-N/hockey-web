@@ -9,7 +9,7 @@ function NavBar(props) {
     return (
         <Grid className={style.container}>
             <Grid className={style.leftContainer}>
-                <Grid className={style.imageContainerl}>
+                <Grid className={style.imageContainer}>
                     <img className={style.logo} src={x} alt=""/>
                 </Grid>
                 <Grid className={style.vl}></Grid>
