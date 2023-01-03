@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment, useState} from 'react';
 import style from './NavBar.module.css'
 import x from '../../../asserts/logo-removebg-preview.png'
 import user from "../../../asserts/user.png"
@@ -6,6 +6,13 @@ import {Link} from 'react-router-dom';
 import {Grid} from "@material-ui/core";
 
 function NavBar(props) {
+    const [popUp, setPopUp] = useState(true);
+
+    function popUpWindow() {
+        console.log(popUp);
+        setPopUp(prevState => !prevState)
+    }
+
     return (
         <Grid className={style.container}>
             <Grid className={style.leftContainer}>
@@ -22,14 +29,23 @@ function NavBar(props) {
             </Grid>
             <Grid className={style.rightContainer}>
 
-                <Link style={{textDecoration:"none"}} className={style.linkStyle} to={"/"}>
+                <Link style={{textDecoration: "none"}} className={style.linkStyle} to={"/"}>
                     <h3>News & Events</h3>
                 </Link>
-                <Link style={{textDecoration:"none"}} className={style.linkStyle} to={"/"}>
+                <Link style={{textDecoration: "none"}} className={style.linkStyle} to={"/"}>
                     <h3>Contact Us</h3>
                 </Link>
-                <img src={user} className={style.user} alt="user"/>
-
+                <img onClick={popUpWindow} src={user} className={style.user} alt="user"/>
+                <div className={style.dropdownContent} hidden={popUp}>
+                    <Fragment>
+                        <Link to={"/"} style={{textDecoration: 'none'}}>
+                            <div className={style.dropBox}><p> Login </p></div>
+                        </Link>
+                        <Link to={"/"} style={{textDecoration: 'none'}}>
+                            <div className={style.dropBox}><p> Dashboard </p></div>
+                        </Link>
+                    </Fragment>
+                </div>
             </Grid>
         </Grid>
     );
