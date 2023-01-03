@@ -26,6 +26,7 @@
     filter: contrast(100%) brightness(100%);
 }
 .headingBtn{
+    border-radius: 10px;
     cursor: pointer;
     position: absolute;
     width: 249px;
@@ -40,6 +41,7 @@
     color: #750077;
 }
 .headingBtn:hover{
+    border-radius: 10px;
     background-color: #750077;
     color: #F6A201;
 }

@@ -11,7 +11,7 @@ function Home(props) {
                     WELCOME TO <br/> UNIVERSITY OF COLOMBO<br/> HOCKEY
                 </h5>
                 <button className={style.headingBtn}>
-                    ABOUT US >
+                    ABOUT US
                 </button>
 
             </Grid>

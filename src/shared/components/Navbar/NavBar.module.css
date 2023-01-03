@@ -69,4 +69,45 @@ Link{
   width: 42px;
   border-radius: 48px;
   border :#750077 2px solid;
+  z-index: 100;
+}
+.dropdownContent{
+  /*display: none;*/
+  position: absolute;
+  min-width: 150px;
+  padding-top: 56px;
+  top: calc(2%);
+  right:calc(8%);
+  z-index: 5;
+}
+
+.dropBox{
+  height: 25px;
+  background-color: #D4D4D4;
+  font-weight: 600;
+  margin: 1px 1px 2px 1px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.25);
+  display: grid;
+  grid-template-columns: max-content auto;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.dropBox p{
+  text-decoration: none;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.dropBox:hover{
+  background-color: #750077;
+  color: #F6A201;
+  cursor: pointer;
+}
+
+.dropBox:hover p{
+  color: #F6A201;
 }
