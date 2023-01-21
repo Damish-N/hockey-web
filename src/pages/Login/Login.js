@@ -4,19 +4,18 @@ import Style from './Login.module.css'
 import image from '../../asserts/logo.png'
 import {useFormik} from 'formik'
 import {Link} from "react-router-dom";
-import {makeStyles} from "@material-ui/core";
+import {Icon, IconButton, Input, InputAdornment, makeStyles} from "@material-ui/core";
+import SearchIcon from '@material-ui/icons/Search';
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 
 function Login(props) {
-    const [focused, setFocused] = React.useState(false);
+    const [showPassword, setShowPassword] = React.useState(false);
 
-    const handleFocus = () => {
-        setFocused(true);
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
     };
 
-    const handleBlur = () => {
-        setFocused(false);
-    };
     const validations = (values) => {
         const errors = {};
         if (!values.email) {
@@ -61,8 +60,6 @@ function Login(props) {
                             id="email"
                             name="email"
                             label="Email"
-                            onFocus={handleFocus}
-                            onBlur={handleBlur}
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             error={formik.touched.email && Boolean(formik.errors.email)}
@@ -72,17 +69,32 @@ function Login(props) {
                             className={Style.input}
                         />
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            edge="end">
+                                            <Icon style={{color: '#750077'}}>
+                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </Icon>
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                             sx={{width: '80%', margin: '5px'}}
                             id="password"
                             name="password"
                             label="Password"
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             error={formik.touched.password && Boolean(formik.errors.password)}
                             helperText={formik.touched.password && formik.errors.password}
                             variant={"outlined"}
                         />
+
                         <Button
                                 className={Style.btnSubmit}
                                 sx={{width: "80%", marginTop: '10px', background: "#750077",color:'#D4D4D4'}} variant="contained"
