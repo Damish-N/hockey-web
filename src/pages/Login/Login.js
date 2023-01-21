@@ -4,9 +4,19 @@ import Style from './Login.module.css'
 import image from '../../asserts/logo.png'
 import {useFormik} from 'formik'
 import {Link} from "react-router-dom";
+import {makeStyles} from "@material-ui/core";
 
 
 function Login(props) {
+    const [focused, setFocused] = React.useState(false);
+
+    const handleFocus = () => {
+        setFocused(true);
+    };
+
+    const handleBlur = () => {
+        setFocused(false);
+    };
     const validations = (values) => {
         const errors = {};
         if (!values.email) {
@@ -35,9 +45,9 @@ function Login(props) {
         }
     });
 
-
+    // const clas = useStyles();
     return (
-        <Grid className={Style.LoginContainer}>
+        <Grid sm={12}  className={Style.LoginContainer}>
             <Grid className={Style.LoginBox}>
                 <Grid className={Style.LoginHeading}>
                     <img className={Style.logo} src={image} alt=""/>
@@ -51,6 +61,8 @@ function Login(props) {
                             id="email"
                             name="email"
                             label="Email"
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             error={formik.touched.email && Boolean(formik.errors.email)}
@@ -71,8 +83,9 @@ function Login(props) {
                             helperText={formik.touched.password && formik.errors.password}
                             variant={"outlined"}
                         />
-                        <Button className={Style.btnSubmit}
-                                sx={{width: "80%", marginTop: '10px', background: "#750077"}} variant="contained"
+                        <Button
+                                className={Style.btnSubmit}
+                                sx={{width: "80%", marginTop: '10px', background: "#750077",color:'#D4D4D4'}} variant="contained"
                                 type="submit">
                             Login
                         </Button>
