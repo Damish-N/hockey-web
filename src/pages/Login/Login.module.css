@@ -19,12 +19,7 @@
     border-radius: 10px;
     padding: 1.5rem 0.5rem;
 }
-/*media screen less than medium size*/
-@media screen and (max-width: 768px) {
-    .LoginContainer .LoginBox {
-        width: 80%;
-    }
-}
+
 
 .LoginContainer .LoginBox .LoginHeading {
     height: calc(30% - 2.5rem);
@@ -78,6 +73,7 @@
     margin-top:15px;
     /*background-color: red;*/
 }
+
 .forgetPassword{
     margin-top: 05px;
     display: flex;
@@ -98,4 +94,14 @@
 }
 .btnSubmit:hover{
     background-color: #750077;
+}
+
+/*media screen less than medium size*/
+@media screen and (max-width: 768px) {
+    .LoginContainer .LoginBox {
+        width: 80%;
+    }
+    .form {
+        margin-top: calc(1.5rem + 10px);
+    }
 }

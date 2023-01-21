@@ -1,6 +1,6 @@
 .background{
     height: 100vh;
-    width: 100%;
+    max-width: 100%;
     background-image: url("/src/asserts/bg_new_cham.jpg");
     background-repeat: no-repeat;
     background-position: center;
@@ -44,4 +44,65 @@
     border-radius: 10px;
     background-color: #750077;
     color: #F6A201;
+}
+/*media size less than 900*/
+@media screen and (max-width: 900px) and   (max-device-width: 900px){
+    .background image{
+        text-align: center;
+        width: 100%;
+        background-image: url("/src/asserts/bg_new_cham.jpg");
+    }
+    .heading{
+        text-align: center;
+        top: 680px;
+    }
+    .heading h5{
+        font-size: 55px;
+        line-height: 54px;
+        left: calc(30% - 15rem);
+    }
+    .heading .headingBtn{
+        width: 150px;
+        height: 50px;
+        left: 35px;
+        top: calc(30% + 100px);
+        font-size: 20px;
+    }
+
+}
+
+@media screen and (max-width: 750px)and   (max-device-width: 750px){
+    .background image{
+        background-image: url("/src/asserts/bg_new_cham.jpg");
+    }
+    .heading h5{
+        font-size: 45px;
+        line-height: 44px;
+        left: calc(30% - 10rem);
+    }
+
+    .headingBtn{
+        width: 150px;
+        height: 50px;
+        left: calc(50% - 75px);
+        top: calc(33% + 100px);
+        font-size: 20px;
+    }
+
+}
+
+@media screen and (max-width: 400px)and  (max-device-width: 400px){
+
+    .heading h5{
+        font-size: 45px;
+        line-height: 44px;
+        left: calc(50% - 10rem);
+    }
+    .heading .headingBtn{
+        font-size: 20px;
+        top: calc(30% + 100px);
+    }
+
+
+
 }

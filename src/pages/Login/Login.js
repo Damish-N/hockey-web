@@ -4,8 +4,7 @@ import Style from './Login.module.css'
 import image from '../../asserts/logo.png'
 import {useFormik} from 'formik'
 import {Link} from "react-router-dom";
-import {Icon, IconButton, Input, InputAdornment, makeStyles} from "@material-ui/core";
-import SearchIcon from '@material-ui/icons/Search';
+import {Icon, IconButton, InputAdornment} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 
@@ -103,7 +102,7 @@ function Login(props) {
                         </Button>
                         <Grid className={Style.forgetPassword}>
                             <h6>Forget your password? </h6>
-                            <Link to={"/"}>
+                            <Link to={"/home"}>
                                 <h6 className={Style.reset}>Reset Password</h6>
                             </Link>
                         </Grid>
