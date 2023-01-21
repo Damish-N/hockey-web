@@ -38,7 +38,7 @@ function NavBar(props) {
                 <img onClick={popUpWindow} src={user} className={style.user} alt="user"/>
                 <div className={style.dropdownContent} hidden={popUp}>
                     <Fragment>
-                        <Link to={"/"} style={{textDecoration: 'none'}}>
+                        <Link to={"login"} style={{textDecoration: 'none'}}>
                             <div className={style.dropBox}><p> Login </p></div>
                         </Link>
                         <Link to={"/"} style={{textDecoration: 'none'}}>
