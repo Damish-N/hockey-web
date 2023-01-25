@@ -4,6 +4,7 @@ import Login from "./pages/Login/Login";
 import {Outlet, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home/Home";
 import NavBar from "./shared/components/Navbar/NavBar";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 const theme = createTheme({
     palette: {
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/" exact element={<LayoutsWithNavbar/>}>
                         <Route path="/" element={<Home/>}/>
                         <Route path="/home" element={<Home/>}/>
+                        <Route path="/dashboard" element={<Dashboard/>}/>
                     </Route>
                     <Route path="/login" element={<Login/>}/>
                 </Routes>

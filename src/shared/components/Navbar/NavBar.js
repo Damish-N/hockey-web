@@ -2,20 +2,23 @@ import React, {Fragment, useState} from 'react';
 import style from './NavBar.module.css'
 import x from '../../../asserts/logo-removebg-preview.png'
 import user from "../../../asserts/user.png"
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {Grid} from "@material-ui/core";
 
 function NavBar(props) {
     const [popUp, setPopUp] = useState(true);
 
+    let navigate = useNavigate();
+
     function popUpWindow() {
-        console.log(popUp);
         setPopUp(prevState => !prevState)
     }
 
     return (
         <Grid className={style.container}>
-            <Grid className={style.leftContainer}>
+            <Grid className={style.leftContainer} onClick={() => {
+                navigate('/');
+            }}>
                 <Grid className={style.imageContainer}>
                     <img className={style.logo} src={x} alt=""/>
                 </Grid>
@@ -39,9 +42,9 @@ function NavBar(props) {
                 <div className={style.dropdownContent} hidden={popUp}>
                     <Fragment>
                         <Link to={"login"} style={{textDecoration: 'none'}}>
-                            <div className={style.dropBox}><p> Login </p></div>
+                            <div className={style.dropBox}><p> Log out </p></div>
                         </Link>
-                        <Link to={"/"} style={{textDecoration: 'none'}}>
+                        <Link onClick={popUpWindow} to={"dashboard"} style={{textDecoration: 'none'}}>
                             <div className={style.dropBox}><p> Dashboard </p></div>
                         </Link>
                     </Fragment>

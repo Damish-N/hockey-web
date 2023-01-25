@@ -5,6 +5,7 @@
   background: #D4D4D4;
 }
 .leftContainer{
+  cursor: pointer;
   margin-right:12rem;
   display: flex;
   flex-direction: row;
