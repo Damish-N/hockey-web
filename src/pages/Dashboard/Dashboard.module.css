@@ -98,3 +98,38 @@
     color: white;
     font-size: 5.85rem;
 }
+
+.tableContainer{
+    margin: 1.5rem 0.5rem;
+    height: 85%;
+    width: 90%;
+    overflow: auto;
+}
+
+.tableHeader{
+    background: #7a7a7a;
+    color: white;
+    font-weight: bold;
+    font-size: 1.05rem;
+}
+
+.calanderView{
+    margin: 1.5rem 0.5rem 0.5rem 1.95rem;
+    /*height: 85%;*/
+    width: 85%;
+    overflow: auto;
+}
+/*media query higher than small devices*/
+@media (min-width: 700px) {
+    .detailsContainer {
+        display: flex;
+
+    }
+}
+/*media query less than small devices*/
+@media (max-width: 700px) {
+    .detailsContainer {
+        display: flex;
+        flex-direction: column;
+    }
+}
