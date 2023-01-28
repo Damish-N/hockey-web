@@ -1,115 +1,124 @@
-.container{
-  display: flex;
-  width: 100%;
-  height: 5.2rem;
-  background: #D4D4D4;
-}
-.leftContainer{
-  margin-right:12rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  /*background: red;*/
-  width: 50%;
-}
-.rightContainer{
-  margin:0 5rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  /*background: khaki;*/
+.container {
+    display: flex;
+    width: 100%;
+    height: 5.2rem;
+    background: #D4D4D4;
 }
 
-.imageContainer{
-  /*background: #61dafb;*/
-}
-.logo{
-  height: 80px;
-  width: auto;
-}
-.vl{
-  margin: 10px 5px;
-  border-left: 3px solid #750077;
-  height: 60px;
-}
-.heading h3{
-  font-family: 'Bebas Neue', cursive;
-  font-weight: 575;
-  font-size: larger;
-  text-align: left;
-  word-spacing: 2px;
-  letter-spacing: 0.06rem;
-  color: #750077;
-  /*background: #282c34;*/
-}
-Link{
-  text-decoration: none;
-}
-.linkStyle h3{
-  margin: 0 2.2rem;
-  font-family: 'Bebas Neue', cursive;
-  color: #750077;
-  font-weight: 500;
-  text-underline:none;
-  cursor: pointer;
-}
-.linkStyle h3:hover{
-  text-decoration: none;
-  color:#F6A201 ;
-  text-underline-color: #750077;
+.leftContainer {
+    cursor: pointer;
+    margin-right: 12rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /*background: red;*/
+    width: 50%;
 }
 
-
-.user{
-  cursor: pointer;
-  height: 42px;
-  width: 42px;
-  border-radius: 48px;
-  border :#750077 2px solid;
-  z-index: 100;
-}
-.dropdownContent{
-  /*display: none;*/
-  position: absolute;
-  min-width: 150px;
-  padding-top: 56px;
-  top: calc(2%);
-  right:calc(8%);
-  z-index: 5;
+.rightContainer {
+    margin: 0 5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    /*background: khaki;*/
 }
 
-.dropBox{
-  height: 25px;
-  background-color: #D4D4D4;
-  font-weight: 600;
-  margin: 1px 1px 2px 1px;
-  border-radius: 4px;
-  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.25);
-  display: grid;
-  grid-template-columns: max-content auto;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
+.imageContainer {
+    /*background: #61dafb;*/
+}
+
+.logo {
+    height: 80px;
+    width: auto;
+}
+
+.vl {
+    margin: 10px 5px;
+    border-left: 3px solid #750077;
+    height: 60px;
+}
+
+.heading h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-weight: 575;
+    font-size: larger;
+    text-align: left;
+    word-spacing: 2px;
+    letter-spacing: 0.06rem;
+    color: #750077;
+    /*background: #282c34;*/
+}
+
+Link {
+    text-decoration: none;
+}
+
+.linkStyle h3 {
+    margin: 0 2.2rem;
+    font-family: 'Bebas Neue', cursive;
+    color: #750077;
+    font-weight: 500;
+    text-underline: none;
+    cursor: pointer;
+}
+
+.linkStyle h3:hover {
+    text-decoration: none;
+    color: #F6A201;
+    text-underline-color: #750077;
 }
 
 
-
-.dropBox p{
-  text-decoration: none;
-  text-align: center;
-  padding: 0;
-  margin: 0;
+.user {
+    cursor: pointer;
+    height: 42px;
+    width: 42px;
+    border-radius: 48px;
+    border: #750077 2px solid;
+    z-index: 100;
 }
 
-.dropBox:hover{
-  background-color: #750077;
-  color: #F6A201;
-  cursor: pointer;
+.dropdownContent {
+    /*display: none;*/
+    position: absolute;
+    min-width: 150px;
+    padding-top: 56px;
+    top: calc(2%);
+    right: calc(8%);
+    z-index: 5;
 }
 
-.dropBox:hover p{
-  color: #F6A201;
+.dropBox {
+    height: 25px;
+    background-color: #D4D4D4;
+    font-weight: 600;
+    margin: 1px 1px 2px 1px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.25);
+    display: grid;
+    grid-template-columns: max-content auto;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+
+.dropBox p {
+    text-decoration: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.dropBox:hover {
+    background-color: #750077;
+    color: #F6A201;
+    cursor: pointer;
+}
+
+.dropBox:hover p {
+    color: #F6A201;
 }

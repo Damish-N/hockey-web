@@ -57,9 +57,10 @@
     /*background-color: red;*/
 }
 
-.input{
+.input {
 
 }
+
 .input:focus {
     /*background-color: forestgreen;*/
 }
@@ -70,29 +71,31 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    margin-top:15px;
+    margin-top: 15px;
     /*background-color: red;*/
 }
 
-.forgetPassword{
+.forgetPassword {
     margin-top: 05px;
     display: flex;
     justify-items: center;
     justify-content: center;
     align-items: center;
 }
-.forgetPassword h6{
+
+.forgetPassword h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
     font-size: 0.7rem;
     color: rgba(117, 0, 119, 0.5);
 }
 
-.reset{
+.reset {
     margin: 0 10px;
     font-weight: bolder;
 }
-.btnSubmit:hover{
+
+.btnSubmit:hover {
     background-color: #750077;
 }
 
@@ -101,6 +104,7 @@
     .LoginContainer .LoginBox {
         width: 80%;
     }
+
     .form {
         margin-top: calc(1.5rem + 10px);
     }

@@ -1,0 +1,140 @@
+/** show the media query less than small /
+
+ */
+.Title {
+  margin: 0.45rem 1rem;
+}
+
+.dashboardContainer {
+  margin: 0.45rem 1rem;
+}
+
+.OuterContainer {
+  height: 100%;
+  margin: 0.45rem 1rem;
+  background: #7a7a7a;
+  /*padding: 2rem;*/
+}
+
+.item {
+  padding: 0.5rem;
+  /*margin: 0.5rem;*/
+  /*margin: 0.5rem;*/
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.itemContainer:hover {
+  transform: translateY(2px);
+  /*padding: 2rem;*/
+}
+
+.item_paper {
+  background: rgb(32, 27, 17);
+  background: linear-gradient(
+    146deg,
+    rgba(117, 0, 119, 1) 10%,
+    rgba(32, 27, 17, 1) 87%
+  );
+  height: 5.5rem;
+  width: 85%;
+  padding: 0.05rem 2rem;
+  margin: 0 0.5rem;
+}
+
+.item_paper_Container {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  justify-items: center;
+}
+
+.item_paper_Container_Secondry {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.MuiTypography-h5 {
+  /* font-size: 1.5rem; */
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}
+
+.MuiTypography-h6 {
+  /*font-size: .85rem;*/
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.0075em;
+}
+
+.textColor {
+  font-weight: bolder;
+  font-size: 1.05rem;
+  color: #ffffff;
+}
+
+.secondTextColor {
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.css-i4bv87-MuiSvgIcon-root {
+  /*font-size: 3.85rem;*/
+}
+
+.iconDetails {
+  color: white;
+  font-size: 5.85rem;
+}
+
+.tableContainer {
+  margin: 1.5rem 0.5rem;
+  height: 85%;
+  width: 90%;
+  overflow: auto;
+}
+
+.tableHeader {
+  background: #7a7a7a;
+  color: white;
+  font-weight: bold;
+  font-size: 1.05rem;
+}
+
+.calanderView {
+  margin: 1.5rem 0.5rem 0.5rem 1.95rem;
+  /*height: 85%;*/
+  width: 85%;
+  overflow: auto;
+}
+
+/*media query higher than small devices*/
+@media (min-width: 700px) {
+  .detailsContainer {
+    display: flex;
+  }
+}
+
+/*media query less than small devices*/
+@media (max-width: 700px) {
+  .detailsContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}

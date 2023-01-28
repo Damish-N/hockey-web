@@ -45,7 +45,7 @@ function Login(props) {
 
     // const clas = useStyles();
     return (
-        <Grid sm={12}  className={Style.LoginContainer}>
+        <Grid sm={12} className={Style.LoginContainer}>
             <Grid className={Style.LoginBox}>
                 <Grid className={Style.LoginHeading}>
                     <img className={Style.logo} src={image} alt=""/>
@@ -76,8 +76,8 @@ function Login(props) {
                                             onClick={handleClickShowPassword}
                                             edge="end">
                                             <Icon style={{color: '#750077'}}>
-                                                {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </Icon>
+                                                {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                            </Icon>
                                         </IconButton>
                                     </InputAdornment>
                                 ),
@@ -95,9 +95,10 @@ function Login(props) {
                         />
 
                         <Button
-                                className={Style.btnSubmit}
-                                sx={{width: "80%", marginTop: '10px', background: "#750077",color:'#D4D4D4'}} variant="contained"
-                                type="submit">
+                            className={Style.btnSubmit}
+                            sx={{width: "80%", marginTop: '10px', background: "#750077", color: '#D4D4D4'}}
+                            variant="contained"
+                            type="submit">
                             Login
                         </Button>
                         <Grid className={Style.forgetPassword}>
