@@ -22,6 +22,7 @@ import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import ViewDayIcon from "@mui/icons-material/ViewDay";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import MyCalendar from "../../shared/components/Calender/Calender";
+import ListView from "../../shared/components/ListView/ListView";
 
 function Dashboard(props) {
   const columns = [
@@ -250,7 +251,28 @@ function Dashboard(props) {
         </Grid>
 
         <Grid xs={12} md={4} className={Styles.calanderView}>
-          <MyCalendar />
+          <Grid
+            style={{
+              overflow: "hidden",
+            }}
+          >
+            <Paper
+              style={{
+                maxWidth: "100%",
+                margin: "1rem 0",
+                border: "2px solid rgba(117, 0, 119, 0.5)",
+                overflow: "auto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <ListView></ListView>
+            </Paper>
+          </Grid>
+          <Grid>
+            <MyCalendar />
+          </Grid>
         </Grid>
       </Grid>
 
