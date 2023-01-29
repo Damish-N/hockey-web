@@ -5,6 +5,7 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import NavBar from "./shared/components/Navbar/NavBar";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import { Grid } from "@material-ui/core";
 
 const theme = createTheme({
   palette: {
@@ -37,7 +38,7 @@ function LayoutsWithNavbar() {
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
+      <Grid className="App">
         <Routes>
           <Route path="/" exact element={<LayoutsWithNavbar />}>
             <Route path="/" element={<Home />} />
@@ -46,7 +47,7 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
         </Routes>
-      </div>
+      </Grid>
     </ThemeProvider>
   );
 }

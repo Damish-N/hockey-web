@@ -20,8 +20,25 @@ import {
 import MyCalendar from "../../shared/components/Calender/Calender";
 import ListView from "../../shared/components/ListView/ListView";
 import CardView from "../../shared/components/CardView/CardView";
+import Style from "../Login/Login.module.css";
+import { TextField } from "@mui/material";
+import { useFormik } from "formik";
 
 function Dashboard(props) {
+  function format(inputDate) {
+    let date, month, year;
+
+    date = inputDate.getDate();
+    month = inputDate.getMonth() + 1;
+    year = inputDate.getFullYear();
+
+    date = date.toString().padStart(2, "0");
+
+    month = month.toString().padStart(2, "0");
+
+    return `${year}-${month}-${date}`;
+  }
+  let toDay = format(new Date());
   const columns = [
     { id: "first", label: "First Name", minWidth: 100 },
     {
@@ -42,6 +59,57 @@ function Dashboard(props) {
       ],
     },
   ];
+
+  const [openAddTask, setOpenAddTask] = React.useState(false);
+
+  const handleSetOpenAddTask = () => {
+    setOpenAddTask(true);
+  };
+
+  const validations = (values) => {
+    const errors = {};
+    if (!values.task) {
+      errors.task = "Required";
+    }
+    if (!values.completionDate) {
+      errors.completionDate = "Required";
+    }
+    if (values.completionDate < toDay) {
+      errors.completionDate = "Please Put Up Coming Date";
+    }
+    if (values.detail === "") {
+      errors.detail = "Required";
+    }
+    if (values.detail.length >= 25) {
+      errors.detail = "Maximum 25 Characters";
+    }
+    return errors;
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      task: "",
+      completionDate: toDay,
+      detail: "",
+    },
+    validate: validations,
+    onSubmit: (values) => {
+      console.log(values);
+      formik.resetForm();
+      setOpenAddTask(false);
+      setTodoList((prevState) => [
+        ...prevState,
+        {
+          task: values.task,
+          detail: values.detail,
+          date: values.completionDate,
+          status: "pending",
+        },
+      ]);
+
+      // alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   function createData(first, last, year, fac, attend) {
     return { first, last, year, fac, attend };
@@ -67,6 +135,32 @@ function Dashboard(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
+  const [todoList, setTodoList] = React.useState([
+    {
+      task: "test",
+      detail: "UOC VS JSP match at our ground",
+      date: "2021-10-10",
+      status: "pending",
+    },
+    {
+      task: "test",
+      detail: "1 VS 3 match at our ground",
+      date: "2021-10-10",
+      status: "pending",
+    },
+    {
+      task: "test",
+      detail: "2 VS JSP match at No ground",
+      date: "2021-10-10",
+      status: "pending",
+    },
+    {
+      task: "test",
+      detail: "6 VS 5 match at 5 ground",
+      date: "2021-10-10",
+      status: "done",
+    },
+  ]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -77,6 +171,8 @@ function Dashboard(props) {
 
   const handleClose = () => {
     setOpen(false);
+    setOpenAddTask(false);
+    formik.resetForm();
     console.log("close");
   };
 
@@ -86,7 +182,7 @@ function Dashboard(props) {
   };
 
   return (
-    <div className={Styles.dashboardContainer}>
+    <Grid className={Styles.dashboardContainer}>
       <Grid
         xs={12}
         className={Styles.item}
@@ -200,15 +296,29 @@ function Dashboard(props) {
         </Grid>
 
         <Grid xs={12} md={4} className={Styles.calanderView}>
+          {/*<Grid>*/}
+          {/*  <MyCalendar />*/}
+          {/*</Grid>*/}
+          <Button
+            color={"primary"}
+            variant={"contained"}
+            style={{
+              margin: "1rem 0",
+              background: "rgba(117, 0, 119, 1)",
+            }}
+            onClick={handleSetOpenAddTask}
+          >
+            ADD NEW TASK
+          </Button>
           <Grid
             style={{
               overflow: "hidden",
             }}
           >
             <Paper
+              aria-disabled={true}
               style={{
                 maxWidth: "100%",
-                margin: "1rem 0",
                 border: "2px solid rgba(117, 0, 119, 0.5)",
                 overflow: "auto",
                 display: "flex",
@@ -216,11 +326,8 @@ function Dashboard(props) {
                 justifyContent: "center",
               }}
             >
-              <ListView></ListView>
+              <ListView list={todoList}></ListView>
             </Paper>
-          </Grid>
-          <Grid>
-            <MyCalendar />
           </Grid>
         </Grid>
       </Grid>
@@ -241,15 +348,106 @@ function Dashboard(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color={"secondary"}>
+          <Button
+            variant={"contained"}
+            onClick={handleClose}
+            color={"secondary"}
+          >
             Disagree
           </Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button
+            variant={"contained"}
+            style={{
+              background: "rgba(117, 0, 119, 1)",
+              color: "white",
+            }}
+            onClick={handleClose}
+          >
             Agree
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+
+      <Dialog open={openAddTask} onClose={handleClose}>
+        <DialogTitle>Add New Task</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            What are the task you have to do in next few days or next week? so
+            That will handle it.
+          </DialogContentText>
+          <form className={Style.form} onSubmit={formik.handleSubmit}>
+            <TextField
+              sx={{ width: "80%", margin: "5px" }}
+              id="task"
+              name="task"
+              label="Task"
+              value={formik.values.task}
+              onChange={formik.handleChange}
+              error={formik.touched.task && Boolean(formik.errors.task)}
+              helperText={formik.touched.task && formik.errors.task}
+              inputProps={{ style: { fontSize: 15, borderColor: "#750077" } }}
+              variant={"outlined"}
+              className={Style.input}
+            />
+            <TextField
+              sx={{ width: "80%", margin: "5px" }}
+              id="completionDate"
+              name="completionDate"
+              label="Completion Date"
+              type="date"
+              maxRows={3}
+              value={formik.values.completionDate}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.completionDate &&
+                Boolean(formik.errors.completionDate)
+              }
+              helperText={
+                formik.touched.completionDate && formik.errors.completionDate
+              }
+              inputProps={{ style: { fontSize: 15, borderColor: "#750077" } }}
+              variant={"outlined"}
+              className={Style.input}
+            />
+            <TextField
+              sx={{ width: "80%", margin: "5px" }}
+              id="detail"
+              name="detail"
+              type={"text"}
+              label="Details"
+              value={formik.values.detail}
+              onChange={formik.handleChange}
+              error={formik.touched.detail && Boolean(formik.errors.detail)}
+              helperText={formik.touched.detail && formik.errors.detail}
+              inputProps={{ style: { fontSize: 15, borderColor: "#750077" } }}
+              variant={"outlined"}
+              className={Style.input}
+            ></TextField>
+
+            <DialogActions>
+              <Button
+                color={"secondary"}
+                variant={"contained"}
+                onClick={handleClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{
+                  background: "rgba(117, 0, 119, 1)",
+                  color: "white",
+                }}
+                disabled={formik.isSubmitting}
+                type="submit"
+                variant={"contained"}
+              >
+                Add New Task
+              </Button>
+            </DialogActions>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </Grid>
   );
 }
 
