@@ -16,12 +16,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
 } from "@material-ui/core";
-import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
-import ViewDayIcon from "@mui/icons-material/ViewDay";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import MyCalendar from "../../shared/components/Calender/Calender";
+import ListView from "../../shared/components/ListView/ListView";
+import CardView from "../../shared/components/CardView/CardView";
 
 function Dashboard(props) {
   const columns = [
@@ -97,69 +95,21 @@ function Dashboard(props) {
         justifyContent={"space-around"}
         spacing={2}
       >
-        <Grid className={Styles.itemContainer} xs={10} md={4}>
-          <Paper className={Styles.item_paper}>
-            <div className={Styles.item_paper_Container}>
-              <AccessibilityNewIcon
-                style={{ fontSize: "2.85rem" }}
-                className={Styles.iconDetails}
-              ></AccessibilityNewIcon>
-              <div className={Styles.item_paper_Container_Secondry}>
-                <Typography variant={"h5"} className={Styles.textColor}>
-                  15
-                </Typography>
-                <Typography
-                  variant={"subtitle2"}
-                  className={Styles.secondTextColor}
-                >
-                  PLAYERS
-                </Typography>
-              </div>
-            </div>
-          </Paper>
-        </Grid>
-        <Grid className={Styles.itemContainer} xs={10} md={4}>
-          <Paper className={Styles.item_paper}>
-            <div className={Styles.item_paper_Container}>
-              <ViewDayIcon
-                style={{ fontSize: "2.85rem" }}
-                className={Styles.iconDetails}
-              ></ViewDayIcon>
-              <div className={Styles.item_paper_Container_Secondry}>
-                <Typography variant={"h5"} className={Styles.textColor}>
-                  25
-                </Typography>
-                <Typography
-                  variant={"subtitle2"}
-                  className={Styles.secondTextColor}
-                >
-                  SEASONED PLAYED MATCHES
-                </Typography>
-              </div>
-            </div>
-          </Paper>
-        </Grid>
-        <Grid className={Styles.itemContainer} xs={10} md={4}>
-          <Paper className={Styles.item_paper}>
-            <div className={Styles.item_paper_Container}>
-              <MonetizationOnIcon
-                style={{ fontSize: "2.85rem" }}
-                className={Styles.iconDetails}
-              ></MonetizationOnIcon>
-              <div className={Styles.item_paper_Container_Secondry}>
-                <Typography variant={"h5"} className={Styles.textColor}>
-                  25,650
-                </Typography>
-                <Typography
-                  variant={"subtitle2"}
-                  className={Styles.secondTextColor}
-                >
-                  HASH IN HAND
-                </Typography>
-              </div>
-            </div>
-          </Paper>
-        </Grid>
+        <CardView
+          value={15}
+          childComponent={"AccessibilityNewIcon"}
+          description={"PLAYERS"}
+        ></CardView>
+        <CardView
+          value={25}
+          childComponent={"ViewDayIcon"}
+          description={"SEASONED PLAYED MATCHES"}
+        ></CardView>
+        <CardView
+          value={25650}
+          childComponent={"MonetizationOnIcon"}
+          description={"HASH IN HAND"}
+        ></CardView>
       </Grid>
 
       <Grid className={Styles.detailsContainer}>
@@ -250,7 +200,28 @@ function Dashboard(props) {
         </Grid>
 
         <Grid xs={12} md={4} className={Styles.calanderView}>
-          <MyCalendar />
+          <Grid
+            style={{
+              overflow: "hidden",
+            }}
+          >
+            <Paper
+              style={{
+                maxWidth: "100%",
+                margin: "1rem 0",
+                border: "2px solid rgba(117, 0, 119, 0.5)",
+                overflow: "auto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <ListView></ListView>
+            </Paper>
+          </Grid>
+          <Grid>
+            <MyCalendar />
+          </Grid>
         </Grid>
       </Grid>
 
