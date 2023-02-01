@@ -1,0 +1,10 @@
+.mainContainer {
+  margin: 0 auto;
+  /*background: red;*/
+}
+
+.headingContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

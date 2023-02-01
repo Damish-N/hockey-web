@@ -25,7 +25,6 @@ function ListView(props) {
           </header>
           <ul className={Styles.todo_cmp__list}>
             {props.list.map((todo, key) => {
-              console.log(todo);
               return (
                 todo.status === "pending" && (
                   <li key={key}>

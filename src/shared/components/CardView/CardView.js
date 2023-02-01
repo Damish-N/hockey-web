@@ -7,7 +7,13 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
 function CardView(props) {
   return (
-    <Grid className={Styles.itemContainer} xs={10} md={4}>
+    <Grid
+      onClick={props.onClick}
+      className={Styles.itemContainer}
+      xs={10}
+      md={4}
+      item
+    >
       <Paper className={Styles.item_paper}>
         <div className={Styles.item_paper_Container}>
           {props.childComponent === "AccessibilityNewIcon" ? (

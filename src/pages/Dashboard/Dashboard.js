@@ -17,14 +17,15 @@ import {
   TablePagination,
   TableRow,
 } from "@material-ui/core";
-import MyCalendar from "../../shared/components/Calender/Calender";
 import ListView from "../../shared/components/ListView/ListView";
 import CardView from "../../shared/components/CardView/CardView";
 import Style from "../Login/Login.module.css";
 import { TextField } from "@mui/material";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard(props) {
+  const navigate = useNavigate();
   function format(inputDate) {
     let date, month, year;
 
@@ -195,21 +196,36 @@ function Dashboard(props) {
           value={15}
           childComponent={"AccessibilityNewIcon"}
           description={"PLAYERS"}
+          onClick={() => {
+            console.log("clicked");
+            navigate("players");
+            console.log("clicked");
+          }}
         ></CardView>
         <CardView
           value={25}
           childComponent={"ViewDayIcon"}
           description={"SEASONED PLAYED MATCHES"}
+          onClick={() => {
+            console.log("clicked");
+            navigate("matches");
+            console.log("clicked");
+          }}
         ></CardView>
         <CardView
           value={25650}
           childComponent={"MonetizationOnIcon"}
           description={"HASH IN HAND"}
+          onClick={() => {
+            console.log("clicked");
+            navigate("cash");
+            console.log("clicked");
+          }}
         ></CardView>
       </Grid>
 
       <Grid className={Styles.detailsContainer}>
-        <Grid xs={12} md={8}>
+        <Grid item xs={12} md={8}>
           <TableContainer className={Styles.tableContainer}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
@@ -228,14 +244,9 @@ function Dashboard(props) {
               <TableBody>
                 {rows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
+                  .map((row, key) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.code}
-                      >
+                      <TableRow hover role="checkbox" tabIndex={-1} key={key}>
                         <TableCell align="left">{row.first}</TableCell>
                         <TableCell align="left">{row.last}</TableCell>
                         <TableCell align="left">{row.fac}</TableCell>
@@ -318,7 +329,7 @@ function Dashboard(props) {
             <Paper
               aria-disabled={true}
               style={{
-                maxWidth: "100%",
+                maxWidth: "10 0%",
                 border: "2px solid rgba(117, 0, 119, 0.5)",
                 overflow: "auto",
                 display: "flex",
