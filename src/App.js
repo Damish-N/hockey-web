@@ -5,6 +5,10 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import NavBar from "./shared/components/Navbar/NavBar";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import { Grid } from "@material-ui/core";
+import Players from "./pages/Dashboard/Players/Players";
+import Matches from "./pages/Dashboard/Matches/Matches";
+import CashMangement from "./pages/Dashboard/CashMangement/CashMangement";
 
 const theme = createTheme({
   palette: {
@@ -37,16 +41,19 @@ function LayoutsWithNavbar() {
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
+      <Grid className="App">
         <Routes>
           <Route path="/" exact element={<LayoutsWithNavbar />}>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/players" element={<Players />} />
+            <Route path="/dashboard/matches" element={<Matches />} />
+            <Route path="/dashboard/cash" element={<CashMangement />} />
           </Route>
           <Route path="/login" element={<Login />} />
         </Routes>
-      </div>
+      </Grid>
     </ThemeProvider>
   );
 }

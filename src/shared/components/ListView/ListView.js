@@ -24,66 +24,26 @@ function ListView(props) {
             <p>{monthName + " " + day + "," + year} </p>
           </header>
           <ul className={Styles.todo_cmp__list}>
-            <li>
-              <label htmlFor="todo-01">
-                <input
-                  id="todo-01"
-                  type="checkbox"
-                  onClick={() => {
-                    console.log("hello");
-                  }}
-                ></input>
-                <span>Open template</span>
-              </label>
-            </li>
-            <li>
-              <label htmlFor="todo-02">
-                <input id="todo-02" type="checkbox"></input>
-                <span>Build a to-do list</span>
-              </label>
-            </li>
-            <li>
-              <label htmlFor="todo-02">
-                <input id="todo-02" type="checkbox"></input>
-                <span>Build a to-do list</span>
-              </label>
-            </li>
-            <li>
-              <label htmlFor="todo-02">
-                <input id="todo-02" type="checkbox"></input>
-                <span>Build a to-do list</span>
-              </label>
-            </li>
-            <li>
-              <label htmlFor="todo-03">
-                <input id="todo-03" type="checkbox"></input>
-                <span>Write something</span>
-              </label>
-            </li>
-            <li>
-              <label htmlFor="todo-03">
-                <input id="todo-03" type="checkbox"></input>
-                <span>Write something</span>
-              </label>
-            </li>
-            <li>
-              <label htmlFor="todo-03">
-                <input id="todo-03" type="checkbox"></input>
-                <span>Write something</span>
-              </label>
-            </li>
-            <li>
-              <label htmlFor="todo-04">
-                <input id="todo-04" type="checkbox"></input>
-                <span>Complete the task</span>
-              </label>
-            </li>
-            <li>
-              <label htmlFor="todo-05">
-                <input id="todo-05" type="checkbox"></input>
-                <span>Open template</span>
-              </label>
-            </li>
+            {props.list.map((todo, key) => {
+              return (
+                todo.status === "pending" && (
+                  <li key={key}>
+                    <label htmlFor={key}>
+                      <input
+                        id={key}
+                        type="checkbox"
+                        onClick={() => {
+                          todo.status = "completed";
+                          console.log(todo);
+                        }}
+                      ></input>
+                      {/*<span>{todo.task}</span>*/}
+                      <span>{todo.detail}</span>
+                    </label>
+                  </li>
+                )
+              );
+            })}
           </ul>
         </section>
       </Grid>
