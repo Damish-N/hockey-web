@@ -9,6 +9,7 @@ import { Grid } from "@material-ui/core";
 import Players from "./pages/Dashboard/Players/Players";
 import Matches from "./pages/Dashboard/Matches/Matches";
 import CashMangement from "./pages/Dashboard/CashMangement/CashMangement";
+import News from "./pages/News/News";
 
 const theme = createTheme({
   palette: {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/" exact element={<LayoutsWithNavbar />}>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/news" element={<News />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/players" element={<Players />} />
             <Route path="/dashboard/matches" element={<Matches />} />
