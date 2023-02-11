@@ -1,7 +1,7 @@
 import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Login from "./pages/Login/Login";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import NavBar from "./shared/components/Navbar/NavBar";
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -32,6 +32,7 @@ function LayoutsWithNavbar(props) {
     console.log("changeStateOnApp-1");
     props.changeState();
   }
+
   return (
     <>
       {/* Your navbar component */}
@@ -44,6 +45,10 @@ function LayoutsWithNavbar(props) {
     </>
   );
 }
+
+const PrivateRoute = ({ component: Component }) => {
+  return sessionStorage["user"] ? <Component /> : <Navigate to="/login" />;
+};
 
 function App() {
   const [logon, setLogon] = useState(false);
@@ -66,7 +71,10 @@ function App() {
           >
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/dashboard"
+              element={<PrivateRoute component={Dashboard} />}
+            />
             <Route path="/dashboard/players" element={<Players />} />
             <Route path="/dashboard/matches" element={<Matches />} />
             <Route path="/dashboard/cash" element={<CashMangement />} />
