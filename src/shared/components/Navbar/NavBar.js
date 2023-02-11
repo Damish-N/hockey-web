@@ -1,12 +1,14 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import style from "./NavBar.module.css";
 import x from "../../../asserts/logo-removebg-preview.png";
 import user from "../../../asserts/user.png";
 import { Link, useNavigate } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import loginService from "../../../services/LoginService";
+import Context from "../../context/Context";
 
 function NavBar(props) {
+  const userStates = useContext(Context);
   const [popUp, setPopUp] = useState(true);
 
   let navigate = useNavigate();
@@ -14,8 +16,10 @@ function NavBar(props) {
   function popUpWindow() {
     setPopUp((prevState) => !prevState);
   }
+
   function logOut() {
     loginService.logout().then((r) => {
+      props.changeState();
       navigate("/login");
     });
 
@@ -27,6 +31,7 @@ function NavBar(props) {
       <Grid
         className={style.leftContainer}
         onClick={() => {
+          console.log(userStates.login);
           navigate("/");
         }}
       >
@@ -63,26 +68,45 @@ function NavBar(props) {
           alt="user"
         />
         <div className={style.dropdownContent} hidden={popUp}>
-          <Fragment>
-            <Link
-              onClick={logOut}
-              to={"login"}
-              style={{ textDecoration: "none" }}
-            >
-              <div className={style.dropBox}>
-                <p> Log out </p>
-              </div>
-            </Link>
-            <Link
-              onClick={popUpWindow}
-              to={"dashboard"}
-              style={{ textDecoration: "none" }}
-            >
-              <div className={style.dropBox}>
-                <p> Dashboard </p>
-              </div>
-            </Link>
-          </Fragment>
+          {userStates.login === true || sessionStorage["user"] ? (
+            <Fragment>
+              <Link to={"login"} style={{ textDecoration: "none" }}>
+                <div className={style.dropBox}>
+                  <p> My Profile </p>
+                </div>
+              </Link>
+              <Link
+                onClick={popUpWindow}
+                to={"dashboard"}
+                style={{ textDecoration: "none" }}
+              >
+                <div className={style.dropBox}>
+                  <p> Dashboard </p>
+                </div>
+              </Link>
+              <Link
+                onClick={logOut}
+                to={"login"}
+                style={{ textDecoration: "none" }}
+              >
+                <div className={style.dropBox}>
+                  <p> Log out </p>
+                </div>
+              </Link>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Link
+                // onClick={logOut}
+                to={"login"}
+                style={{ textDecoration: "none" }}
+              >
+                <div className={style.dropBox}>
+                  <p> Log In </p>
+                </div>
+              </Link>
+            </Fragment>
+          )}
         </div>
       </Grid>
     </Grid>

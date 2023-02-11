@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  Box,
-  Button,
-  Grid,
-  LinearProgress,
-  TextField,
-} from "@mui/material";
+import { Alert, Button, Grid, LinearProgress, TextField } from "@mui/material";
 import Style from "./Login.module.css";
 import image from "../../asserts/logo.png";
 import { useFormik } from "formik";
@@ -52,6 +45,8 @@ function Login(props) {
       loginService.login(values).then(
         (res) => {
           if (res.data.user !== null) {
+            props.changeState();
+            sessionStorage["user"] = JSON.stringify(res.data.user);
             navigate("/home");
           } else {
             setError(res.error.message);

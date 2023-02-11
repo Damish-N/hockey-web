@@ -5,10 +5,11 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import NavBar from "./shared/components/Navbar/NavBar";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { Grid } from "@material-ui/core";
 import Players from "./pages/Dashboard/Players/Players";
 import Matches from "./pages/Dashboard/Matches/Matches";
 import CashMangement from "./pages/Dashboard/CashMangement/CashMangement";
+import { useState } from "react";
+import Context from "./shared/context/Context";
 
 const theme = createTheme({
   palette: {
@@ -24,11 +25,17 @@ const theme = createTheme({
   },
 });
 
-function LayoutsWithNavbar() {
+function LayoutsWithNavbar(props) {
+  // const [logon, setLogon] = useState(props.state);
+
+  function changeStateOnApp() {
+    console.log("changeStateOnApp-1");
+    props.changeState();
+  }
   return (
     <>
       {/* Your navbar component */}
-      <NavBar />
+      <NavBar changeState={changeStateOnApp} />
 
       {/* This Outlet is the place in which react-router will render your components that you need with the navbar */}
       <Outlet />
@@ -39,11 +46,24 @@ function LayoutsWithNavbar() {
 }
 
 function App() {
+  const [logon, setLogon] = useState(false);
+
+  function changeStateOnApp() {
+    console.log("changeStateOnApp");
+    setLogon(!logon);
+  }
+
+  // const value = useContext(Context);
   return (
     <ThemeProvider theme={theme}>
-      <Grid className="App">
+      <Context.Provider value={{ login: logon }}>
         <Routes>
-          <Route path="/" exact element={<LayoutsWithNavbar />}>
+          <Route
+            path="/"
+            element={
+              <LayoutsWithNavbar changeState={changeStateOnApp} state={logon} />
+            }
+          >
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -51,9 +71,25 @@ function App() {
             <Route path="/dashboard/matches" element={<Matches />} />
             <Route path="/dashboard/cash" element={<CashMangement />} />
           </Route>
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={<Login changeState={changeStateOnApp} />}
+          />
         </Routes>
-      </Grid>
+      </Context.Provider>
+      {/*<Grid className="App">*/}
+      {/*  <Routes>*/}
+      {/*    <Route path="/" exact element={<LayoutsWithNavbar />}>*/}
+      {/*      <Route path="/" element={<Home />} />*/}
+      {/*      <Route path="/home" element={<Home />} />*/}
+      {/*      <Route path="/dashboard" element={<Dashboard />} />*/}
+      {/*      <Route path="/dashboard/players" element={<Players />} />*/}
+      {/*      <Route path="/dashboard/matches" element={<Matches />} />*/}
+      {/*      <Route path="/dashboard/cash" element={<CashMangement />} />*/}
+      {/*    </Route>*/}
+      {/*    <Route path="/login" element={<Login />} />*/}
+      {/*  </Routes>*/}
+      {/*</Grid>*/}
     </ThemeProvider>
   );
 }
