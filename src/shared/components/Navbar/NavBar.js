@@ -4,6 +4,7 @@ import x from "../../../asserts/logo-removebg-preview.png";
 import user from "../../../asserts/user.png";
 import { Link, useNavigate } from "react-router-dom";
 import { Grid } from "@material-ui/core";
+import loginService from "../../../services/LoginService";
 
 function NavBar(props) {
   const [popUp, setPopUp] = useState(true);
@@ -12,6 +13,13 @@ function NavBar(props) {
 
   function popUpWindow() {
     setPopUp((prevState) => !prevState);
+  }
+  function logOut() {
+    loginService.logout().then((r) => {
+      navigate("/login");
+    });
+
+    // localStorage.removeItem("token");
   }
 
   return (
@@ -56,7 +64,11 @@ function NavBar(props) {
         />
         <div className={style.dropdownContent} hidden={popUp}>
           <Fragment>
-            <Link to={"login"} style={{ textDecoration: "none" }}>
+            <Link
+              onClick={logOut}
+              to={"login"}
+              style={{ textDecoration: "none" }}
+            >
               <div className={style.dropBox}>
                 <p> Log out </p>
               </div>
