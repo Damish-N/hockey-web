@@ -5,7 +5,7 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import NavBar from "./shared/components/Navbar/NavBar";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import Players from "./pages/Dashboard/Players/Players";
+import CreatePlayers from "./pages/Dashboard/Players/CreatePlayers";
 import Matches from "./pages/Dashboard/Matches/Matches";
 import CashMangement from "./pages/Dashboard/CashMangement/CashMangement";
 import { useState } from "react";
@@ -75,7 +75,7 @@ function App() {
               path="/dashboard"
               element={<PrivateRoute component={Dashboard} />}
             />
-            <Route path="/dashboard/players" element={<Players />} />
+            <Route path="/dashboard/players" element={<CreatePlayers />} />
             <Route path="/dashboard/matches" element={<Matches />} />
             <Route path="/dashboard/cash" element={<CashMangement />} />
           </Route>
@@ -91,7 +91,7 @@ function App() {
       {/*      <Route path="/" element={<Home />} />*/}
       {/*      <Route path="/home" element={<Home />} />*/}
       {/*      <Route path="/dashboard" element={<Dashboard />} />*/}
-      {/*      <Route path="/dashboard/players" element={<Players />} />*/}
+      {/*      <Route path="/dashboard/players" element={<CreatePlayers />} />*/}
       {/*      <Route path="/dashboard/matches" element={<Matches />} />*/}
       {/*      <Route path="/dashboard/cash" element={<CashMangement />} />*/}
       {/*    </Route>*/}
