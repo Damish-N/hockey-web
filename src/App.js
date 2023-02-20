@@ -75,7 +75,11 @@ function App() {
               path="/dashboard"
               element={<PrivateRoute component={Dashboard} />}
             />
-            <Route path="/dashboard/players" element={<CreatePlayers />} />
+            <Route
+              path="/dashboard/players"
+              element={<PrivateRoute component={CreatePlayers} />}
+            />
+            {/*<Route path="/dashboard/players" element={<CreatePlayers />} />*/}
             <Route path="/dashboard/matches" element={<Matches />} />
             <Route path="/dashboard/cash" element={<CashMangement />} />
           </Route>
