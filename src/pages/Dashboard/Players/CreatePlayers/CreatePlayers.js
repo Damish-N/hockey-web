@@ -14,15 +14,17 @@ import {
 } from "@mui/material";
 import { Button, Divider, Paper } from "@material-ui/core";
 import Styles from "./CreatePlayers.module.css";
-import playerImage from "../../../asserts/player_dummy.png";
+import playerImage from "../../../../asserts/player_dummy.png";
 import { useFormik } from "formik";
-import playersServices from "../../../services/PlayersServices";
-import loginService from "../../../services/LoginService";
+import playersServices from "../../../../services/PlayersServices";
+import loginService from "../../../../services/LoginService";
+import { useNavigate } from "react-router-dom";
 
 function CreatePlayers(props) {
   const [open, setOpen] = React.useState(false);
   const [openError, setOpenError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -92,6 +94,7 @@ function CreatePlayers(props) {
                 if (res.status === 201) {
                   setOpen(true);
                   setLoading(false);
+                  navigate("/dashboard/players");
                 } else {
                   console.log("clicked");
                   setOpenError(true);

@@ -5,11 +5,12 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import NavBar from "./shared/components/Navbar/NavBar";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import CreatePlayers from "./pages/Dashboard/Players/CreatePlayers";
+import CreatePlayers from "./pages/Dashboard/Players/CreatePlayers/CreatePlayers";
 import Matches from "./pages/Dashboard/Matches/Matches";
 import CashMangement from "./pages/Dashboard/CashMangement/CashMangement";
 import { useState } from "react";
 import Context from "./shared/context/Context";
+import ViewPlayers from "./pages/Dashboard/Players/ViewPlayers/ViewPlayers";
 
 const theme = createTheme({
   palette: {
@@ -77,6 +78,10 @@ function App() {
             />
             <Route
               path="/dashboard/players"
+              element={<PrivateRoute component={ViewPlayers} />}
+            />
+            <Route
+              path="/dashboard/players/createPlayer"
               element={<PrivateRoute component={CreatePlayers} />}
             />
             {/*<Route path="/dashboard/players" element={<CreatePlayers />} />*/}

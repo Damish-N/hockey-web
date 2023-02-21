@@ -190,7 +190,8 @@ function Dashboard(props) {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    // console.log(event.target.value);
+    setRowsPerPage(event.target.value);
     setPage(0);
   };
 
@@ -203,6 +204,7 @@ function Dashboard(props) {
       )}
       <Grid className={Styles.dashboardContainer}>
         <Grid
+          item
           xs={12}
           className={Styles.item}
           container
@@ -242,7 +244,7 @@ function Dashboard(props) {
           ></CardView>
         </Grid>
 
-        <Grid className={Styles.detailsContainer}>
+        <Grid container spacing={2} className={Styles.detailsContainer}>
           <Grid item xs={12} md={8}>
             <TableContainer className={Styles.tableContainer}>
               <Table stickyHeader aria-label="sticky table">
@@ -324,7 +326,7 @@ function Dashboard(props) {
             />
           </Grid>
 
-          <Grid xs={12} md={4} className={Styles.calanderView}>
+          <Grid item xs={12} md={4} className={Styles.calanderView}>
             {/*<Grid>*/}
             {/*  <MyCalendar />*/}
             {/*</Grid>*/}

@@ -12,8 +12,14 @@ export class PlayersServices {
     const res = await this.supabase.from("players").insert([values]);
     return res;
   }
+
   async getNoPlayers() {
     let res = await this.supabase.rpc("getNumberOfPlayers");
+    return res;
+  }
+
+  async getPlayers() {
+    let res = await this.supabase.from("players").select("*");
     return res;
   }
 }
