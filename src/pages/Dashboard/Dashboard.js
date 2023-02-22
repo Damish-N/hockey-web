@@ -34,11 +34,9 @@ function Dashboard(props) {
   const [update, setUpdate] = useState(false);
   useEffect(() => {
     playersServices.getNoPlayers().then((res) => {
-      console.log(res.data);
       setNoOfPlayers(res.data);
     });
     playersServices.getAttendance().then((res) => {
-      console.log(res);
       if (res.data) {
         const data = res.data;
         data.forEach((element) => {
@@ -194,7 +192,6 @@ function Dashboard(props) {
   const handleClickOpen = (row) => {
     setOpen(true);
     setSelected(row);
-    console.log(row);
   };
 
   const handleCloseStatus = (value: any) => {
@@ -202,11 +199,7 @@ function Dashboard(props) {
     if (value !== "close") {
       setUpdate(true);
       playersServices.updateAttendance(selected.attendId, value).then((res) => {
-        console.log(res);
         if (res.status === 204) {
-          // setUpdate((prevState) => !prevState);
-          console.log("success");
-          //update the row ;
           setRows((prevState) => {
             const updatedRows = [...prevState];
             const index = updatedRows.findIndex(
@@ -429,32 +422,35 @@ function Dashboard(props) {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {"Use Google's location service?"}
+              {"Is he attend ?"}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Let Google help apps determine location. This means sending
-                anonymous location data to Google, even when no apps are
-                running.
+                Please make sure that you have to select the correct option. If
+                he attends then select yes otherwise select no. If you want to
+                exit then select close or background.
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button
                 variant={"contained"}
                 onClick={() => handleCloseStatus(false)}
-                color={"secondary"}
+                style={{
+                  background: "#EB0014",
+                  color: "white",
+                }}
               >
-                Disagree
+                No
               </Button>
               <Button
                 variant={"contained"}
                 style={{
-                  background: "rgba(117, 0, 119, 1)",
+                  background: "#66BB6A",
                   color: "white",
                 }}
                 onClick={() => handleCloseStatus(true)}
               >
-                Agree
+                Yes
               </Button>
             </DialogActions>
           </Dialog>
