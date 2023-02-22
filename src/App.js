@@ -30,7 +30,6 @@ function LayoutsWithNavbar(props) {
   // const [logon, setLogon] = useState(props.state);
 
   function changeStateOnApp() {
-    console.log("changeStateOnApp-1");
     props.changeState();
   }
 
@@ -55,7 +54,6 @@ function App() {
   const [logon, setLogon] = useState(false);
 
   function changeStateOnApp() {
-    console.log("changeStateOnApp");
     setLogon(!logon);
   }
 

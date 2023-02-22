@@ -20,11 +20,12 @@ import {
 import ListView from "../../shared/components/ListView/ListView";
 import CardView from "../../shared/components/CardView/CardView";
 import Style from "../Login/Login.module.css";
-import { LinearProgress, TextField } from "@mui/material";
+import { Alert, LinearProgress, Snackbar, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import playersServices from "../../services/PlayersServices";
 import LoadingComponent from "../../shared/components/LoadingComponent/LoadingComponent";
+import GenrateUUID from "../../shared/constant/GenrateUUID";
 
 function Dashboard(props) {
   const [noOfPlayers, setNoOfPlayers] = useState(0);
@@ -35,6 +36,13 @@ function Dashboard(props) {
   useEffect(() => {
     playersServices.getNoPlayers().then((res) => {
       setNoOfPlayers(res.data);
+    });
+    playersServices.getTasks().then((res) => {
+      if (res.status === 200) {
+        setTodoList(res.data);
+      } else {
+        setTodoList([]);
+      }
     });
     playersServices.getAttendance().then((res) => {
       if (res.data) {
@@ -130,18 +138,46 @@ function Dashboard(props) {
     },
     validate: validations,
     onSubmit: (values) => {
+      const id = GenrateUUID.uuidv4();
+      values = {
+        ...values,
+        id: id,
+      };
+      setUpdate(true);
       console.log(values);
       formik.resetForm();
       setOpenAddTask(false);
-      setTodoList((prevState) => [
-        ...prevState,
-        {
-          task: values.task,
-          detail: values.detail,
-          date: values.completionDate,
-          status: "pending",
-        },
-      ]);
+      playersServices.createATask(values).then((res) => {
+        setSnackbar(true);
+        if (res.status === 201) {
+          if (values.completionDate === toDay) {
+            setTodoList((prevState) => [
+              ...prevState,
+              {
+                id: id,
+                task: values.task,
+                detail: values.detail,
+                date: values.completionDate,
+                status: false,
+              },
+            ]);
+          }
+          console.log(res);
+          setStatus({
+            open: true,
+            status: "success",
+            message: "Created Task Successfully",
+          });
+        } else {
+          setStatus({
+            open: true,
+            status: "success",
+            message: "Error Raised",
+          });
+        }
+        setUpdate(false);
+        console.log(res);
+      });
 
       // alert(JSON.stringify(values, null, 2));
     },
@@ -156,35 +192,41 @@ function Dashboard(props) {
   //   createData("China", "CN", "No"),
   //   createData("Italy", "IT", "Pending"),
   // ];
+  //
+  // {
+  //   task: "test",
+  //       detail: "UOC VS JSP match at our ground",
+  //     date: "2021-10-10",
+  //     status: "pending",
+  // },
+  // {
+  //   task: "test",
+  //       detail: "1 VS 3 match at our ground",
+  //     date: "2021-10-10",
+  //     status: "pending",
+  // },
+  // {
+  //   task: "test",
+  //       detail: "2 VS JSP match at No ground",
+  //     date: "2021-10-10",
+  //     status: "pending",
+  // },
+  // {
+  //   task: "test",
+  //       detail: "6 VS 5 match at 5 ground",
+  //     date: "2021-10-10",
+  //     status: "done",
+  // },
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
-  const [todoList, setTodoList] = React.useState([
-    {
-      task: "test",
-      detail: "UOC VS JSP match at our ground",
-      date: "2021-10-10",
-      status: "pending",
-    },
-    {
-      task: "test",
-      detail: "1 VS 3 match at our ground",
-      date: "2021-10-10",
-      status: "pending",
-    },
-    {
-      task: "test",
-      detail: "2 VS JSP match at No ground",
-      date: "2021-10-10",
-      status: "pending",
-    },
-    {
-      task: "test",
-      detail: "6 VS 5 match at 5 ground",
-      date: "2021-10-10",
-      status: "done",
-    },
-  ]);
+  const [todoList, setTodoList] = React.useState([]);
+  const [snackbar, setSnackbar] = React.useState(false);
+  const [status, setStatus] = React.useState({
+    open: false,
+    status: "",
+    message: "center",
+  });
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -199,7 +241,13 @@ function Dashboard(props) {
     if (value !== "close") {
       setUpdate(true);
       playersServices.updateAttendance(selected.attendId, value).then((res) => {
+        setSnackbar(true);
         if (res.status === 204) {
+          setStatus({
+            open: true,
+            status: "success",
+            message: "Attendance Updated Successfully",
+          });
           setRows((prevState) => {
             const updatedRows = [...prevState];
             const index = updatedRows.findIndex(
@@ -210,6 +258,12 @@ function Dashboard(props) {
               attend: value,
             };
             return updatedRows;
+          });
+        } else {
+          setStatus({
+            open: true,
+            status: "error",
+            message: "Attendance Updated UnSuccessfully",
           });
         }
         setUpdate(false);
@@ -229,6 +283,10 @@ function Dashboard(props) {
     setRowsPerPage(event.target.value);
     setPage(0);
   };
+
+  function closeSnackBar() {
+    setSnackbar(false);
+  }
 
   return (
     <Grid>
@@ -260,9 +318,7 @@ function Dashboard(props) {
               childComponent={"AccessibilityNewIcon"}
               description={"PLAYERS"}
               onClick={() => {
-                console.log("clicked");
                 navigate("players");
-                console.log("clicked");
               }}
             ></CardView>
             <CardView
@@ -270,9 +326,7 @@ function Dashboard(props) {
               childComponent={"ViewDayIcon"}
               description={"SEASONED PLAYED MATCHES"}
               onClick={() => {
-                console.log("clicked");
                 navigate("matches");
-                console.log("clicked");
               }}
             ></CardView>
             <CardView
@@ -543,6 +597,15 @@ function Dashboard(props) {
           </Dialog>
         </Grid>
       )}
+      <Snackbar open={snackbar} autoHideDuration={6000} onClose={closeSnackBar}>
+        <Alert
+          onClose={handleClose}
+          severity={status.status ? "success" : "error"}
+          sx={{ width: "100%" }}
+        >
+          {status.message}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 }

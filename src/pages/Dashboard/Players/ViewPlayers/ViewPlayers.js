@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Styles from "../ViewPlayers/ViewPlayers.module.css";
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Grid } from "@mui/material";
 import {
   Button,
   Divider,
@@ -65,7 +57,6 @@ function ViewPlayers(props) {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log("call");
     playersServices.getPlayers().then((data) => {
       if (data.status === 200) {
         const rows = createRows(data.data);
