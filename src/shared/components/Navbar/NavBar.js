@@ -21,7 +21,7 @@ function NavBar(props) {
     loginService.logout().then((r) => {
       props.changeState();
       sessionStorage.removeItem("user");
-      localStorage.removeAll();
+      localStorage.removeItem("sb-tjelkiwfbrbhhugapbkk-auth-token");
       navigate("/login");
     });
 
@@ -33,7 +33,6 @@ function NavBar(props) {
       <Grid
         className={style.leftContainer}
         onClick={() => {
-          console.log(userStates.login);
           navigate("/");
         }}
       >

@@ -15,6 +15,7 @@ export class PlayersServices {
 
       return `${year}-${month}-${date}`;
     }
+
     this.toDay = formatDate(new Date());
     this.supabase = createClient(
       "https://tjelkiwfbrbhhugapbkk.supabase.co",
@@ -52,12 +53,48 @@ export class PlayersServices {
       console.log(e);
     }
   }
+
   async updateAttendance(id: number, attend: boolean) {
     try {
       const res = await this.supabase
         .from("attendance")
         .update({ attend: attend })
         .eq("id", id);
+      return res;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async createATask(values) {
+    try {
+      const res = await this.supabase.from("tasks").insert([values]);
+      return res;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async getTasks() {
+    try {
+      const res = await this.supabase
+        .from("tasks")
+        .select("*")
+        .eq("completionDate", this.toDay)
+        .eq("status", false);
+      return res;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async updateTask(values) {
+    try {
+      const res = await this.supabase
+        .from("tasks")
+        .update({ status: true })
+        .eq("id", values.id);
+      console.log(res);
       return res;
     } catch (e) {
       console.log(e);
