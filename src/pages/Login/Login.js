@@ -68,87 +68,91 @@ function Login(props) {
 
   // const clas = useStyles();
   return (
-    <Grid sm={12} className={Style.LoginContainer}>
-      <Grid className={Style.LoginBox}>
-        <Grid className={Style.LoginHeading}>
-          <img className={Style.logo} src={image} alt="" />
-          <h4>Welcome Back</h4>
-          <h6>Enter your credentials to access your account</h6>
-        </Grid>
-        <Grid className={Style.LoginForm}>
-          <form className={Style.form} onSubmit={formik.handleSubmit}>
-            <TextField
-              sx={{ width: "80%", margin: "5px" }}
-              id="email"
-              name="email"
-              label="Email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-              inputProps={{ style: { fontSize: 15, borderColor: "#750077" } }}
-              variant={"outlined"}
-              className={Style.input}
-            />
-            <TextField
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      <Icon style={{ color: "#750077" }}>
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </Icon>
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ width: "80%", margin: "5px" }}
-              id="password"
-              name="password"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              variant={"outlined"}
-            />
-
-            <Button
-              className={Style.btnSubmit}
-              sx={{
-                width: "80%",
-                marginTop: "10px",
-                background: "#750077",
-                color: "#D4D4D4",
-              }}
-              variant="contained"
-              type="submit"
-            >
-              Login
-            </Button>
-            {error && (
-              <Grid sx={{ marginTop: "1.2rem", width: "80%" }}>
-                <Alert severity="error">{error}</Alert>
-              </Grid>
-            )}
-            <Grid className={Style.forgetPassword}>
-              <h6>Forget your password? </h6>
-              <Link to={"/home"}>
-                <h6 className={Style.reset}>Reset Password</h6>
-              </Link>
-            </Grid>
-          </form>
-        </Grid>
-        {loading && (
-          <Grid sx={{ width: "100%", margin: "0", top: "10" }}>
-            <LinearProgress sx={{ color: "#750077" }} />
+    <Grid>
+      <Grid item sm={12} className={Style.LoginContainer}>
+        <Grid className={Style.LoginBox}>
+          <Grid className={Style.LoginHeading}>
+            <img className={Style.logo} src={image} alt="" />
+            <h4>Welcome Back</h4>
+            <h6>Enter your credentials to access your account</h6>
           </Grid>
-        )}
+          <Grid className={Style.LoginForm}>
+            <form className={Style.form} onSubmit={formik.handleSubmit}>
+              <TextField
+                sx={{ width: "80%", margin: "5px" }}
+                id="email"
+                name="email"
+                label="Email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                inputProps={{ style: { fontSize: 15, borderColor: "#750077" } }}
+                variant={"outlined"}
+                className={Style.input}
+              />
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        <Icon style={{ color: "#750077" }}>
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </Icon>
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: "80%", margin: "5px" }}
+                id="password"
+                name="password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+                variant={"outlined"}
+              />
+
+              <Button
+                className={Style.btnSubmit}
+                sx={{
+                  width: "80%",
+                  marginTop: "10px",
+                  background: "#750077",
+                  color: "#D4D4D4",
+                }}
+                variant="contained"
+                type="submit"
+              >
+                Login
+              </Button>
+              {error && (
+                <Grid sx={{ marginTop: "1.2rem", width: "80%" }}>
+                  <Alert severity="error">{error}</Alert>
+                </Grid>
+              )}
+              <Grid className={Style.forgetPassword}>
+                <h6>Forget your password? </h6>
+                <Link to={"/home"}>
+                  <h6 className={Style.reset}>Reset Password</h6>
+                </Link>
+              </Grid>
+            </form>
+          </Grid>
+          {loading && (
+            <Grid sx={{ width: "100%", margin: "0", top: "10" }}>
+              <LinearProgress sx={{ color: "#750077" }} />
+            </Grid>
+          )}
+        </Grid>
       </Grid>
     </Grid>
   );

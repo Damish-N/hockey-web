@@ -20,6 +20,8 @@ function NavBar(props) {
   function logOut() {
     loginService.logout().then((r) => {
       props.changeState();
+      sessionStorage.removeItem("user");
+      localStorage.removeAll();
       navigate("/login");
     });
 

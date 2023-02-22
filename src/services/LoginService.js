@@ -30,6 +30,14 @@ export class LoginService {
     return { error };
     // this._isAuthenticated = false;
   }
+
+  async register(values) {
+    const { data, error } = await this.supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+    });
+    return { data, error };
+  }
 }
 
 export default new LoginService();
