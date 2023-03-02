@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Styles from "./Matches.module.css";
 import { Button, Chip, Grid, Paper } from "@mui/material";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import MatchStats from "../../../shared/components/MatchStats/MatchStats";
+import CreateMatchDialog from "../../../shared/components/CreateMatchDialog/CreateMatchDialog";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export const data = {
@@ -28,6 +29,10 @@ export const data = {
 };
 
 function Matches(props) {
+  const [openCreatDialog, setOpenCreatDialog] = useState(false);
+  const changeDialogState = () => {
+    setOpenCreatDialog(false);
+  };
   return (
     <Grid container spacing={2} sx={{ margin: "0 auto", width: "95%" }}>
       <Grid item xs={12} md={8}>
@@ -37,7 +42,13 @@ function Matches(props) {
         >
           <Grid className={Styles.headingButtonArea}>
             <h1 style={{ color: "#ffffff" }}>Matches</h1>
-            <Button className={Styles.button} sx={{ background: "white" }}>
+            <Button
+              onClick={() => {
+                setOpenCreatDialog(true);
+              }}
+              className={Styles.button}
+              sx={{ background: "white" }}
+            >
               Add New Match
             </Button>
           </Grid>{" "}
@@ -91,6 +102,10 @@ function Matches(props) {
           </Paper>
         </Paper>
       </Grid>
+      <CreateMatchDialog
+        open={openCreatDialog}
+        changeTheDialogState={changeDialogState}
+      ></CreateMatchDialog>
     </Grid>
   );
 }
