@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -7,21 +8,46 @@ import {
   DialogTitle,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
+  Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import playersServices from "../../../services/PlayersServices";
+import DeleteIcon from "@mui/icons-material/Delete";
 import dateSetUp from "../../constant/DateSetUp";
 
 function CreateMatchDialog(props) {
   const dateObject = new Date();
   const date = dayjs(dateObject); // Convert the Date object to a Day.js object
+  const [players, setPlayers] = useState([]);
+  const [dupPlayers, setDupPlayers] = useState([]);
+  const [scoreList, setScoreList] = useState([]);
+  const [homeGoals, setHomeGoals] = useState(0);
+  const [currentPlayer, setCurrentPlayer] = useState({});
+  const [open, setOpen] = useState({ open: false, message: "" });
+
+  useEffect(() => {
+    playersServices.getPlayers().then((res) => {
+      setPlayers(res.data);
+      setDupPlayers(res.data);
+    });
+  }, []);
 
   const validates = (values) => {
     const errors = {};
@@ -55,16 +81,79 @@ function CreateMatchDialog(props) {
       awayGoals: 0,
       date: date,
       time: 0,
+      homeSideGoalScorers: "",
+      currentPlayerGoals: 1,
     },
     validate: validates,
     onSubmit: (values) => {
+      if (values.homeGoals > 0 && scoreList.length === 0) {
+        setOpen({ open: true, message: "Must add scorers" });
+        setTimeout(() => {
+          setOpen({ open: false, message: "" });
+        }, 2000);
+        return;
+      } else {
+        let goals = 0;
+        scoreList.forEach((item) => {
+          goals += item.goals;
+        });
+        if (goals !== values.homeGoals) {
+          setOpen({
+            open: true,
+            message: "Must Be Equal home goals and scorers",
+          });
+          setTimeout(() => {
+            setOpen({ open: false, message: "" });
+          }, 2000);
+          return;
+        }
+        setHomeGoals(0);
+        setScoreList([]);
+        const matchStats = {
+          ...values,
+          date: dateSetUp.format(values.date),
+          homeSideGoalScorers: scoreList,
+        };
+        console.log(matchStats);
+        // alert(JSON.stringify(values, null, 2));
+        form.resetForm();
+      }
       // setLoading(true);
-      console.log(values);
-      console.log(dateSetUp.format(values.date));
-      // alert(JSON.stringify(values, null, 2));
-      form.resetForm();
     },
   });
+
+  function selectGoalScores() {
+    let id = form.values.homeSideGoalScorers;
+    console.log(form.values.homeSideGoalScorers);
+    // console.log(scoreList);
+    if (id !== "") {
+      let totalGoals = 0;
+      //add the total number of goals in the score list
+      scoreList.forEach((item) => {
+        totalGoals += item.goals;
+      });
+      if (totalGoals + form.values.currentPlayerGoals <= homeGoals) {
+        let player = players.find((player) => player.id === id);
+        setPlayers(players.filter((player) => player.id !== id));
+        setCurrentPlayer(player);
+        form.values.homeSideGoalScorers = "";
+        setScoreList([
+          ...scoreList,
+          {
+            id: player.id,
+            name: player.firstName + " " + player.lastName,
+            goals: form.values.currentPlayerGoals,
+          },
+        ]);
+      } else {
+        setOpen({ open: true, message: "Cannot add more goals" });
+        setTimeout(() => {
+          setOpen(false);
+        }, 2000);
+      }
+    }
+  }
+
   return (
     <Grid>
       <Dialog open={props.open}>
@@ -119,7 +208,11 @@ function CreateMatchDialog(props) {
                     type="number"
                     variant="outlined"
                     value={form.values.homeGoals}
-                    onChange={form.handleChange}
+                    // onChange={form.handleChange}
+                    onChange={(e) => {
+                      form.handleChange(e);
+                      setHomeGoals(e.target.value);
+                    }}
                     error={
                       form.touched.homeGoals && Boolean(form.errors.homeGoals)
                     }
@@ -190,6 +283,138 @@ function CreateMatchDialog(props) {
                     helperText={form.touched.time && form.errors.time}
                   />
                 </Grid>
+                {homeGoals > 0 && (
+                  <Grid item xs={12} md={12}>
+                    <Typography
+                      sx={{ paddingBottom: "0.55rem" }}
+                      variant={"h6"}
+                    >
+                      Home Goal Scorers
+                    </Typography>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={7}>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Home Side Goal Scorers
+                          </InputLabel>
+                          <Select
+                            name={"homeSideGoalScorers"}
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={form.values.homeSideGoalScorers}
+                            label="Home Side Goal Scorers"
+                            variant="outlined"
+                            // onChange={form.handleChange}
+                            onChange={(e) => {
+                              form.handleChange(e);
+                            }}
+                          >
+                            {players.map((player, index) => {
+                              return (
+                                <MenuItem key={index} value={player.id}>
+                                  {player.firstName + " " + player.lastName}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12} md={5}>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            No Of Goals
+                          </InputLabel>
+                          <Select
+                            name={"currentPlayerGoals"}
+                            labelId="demo-simple-select-label-faculty"
+                            id="demo-simple-select-faculty"
+                            value={form.values.currentPlayerGoals}
+                            label="No Of Goals"
+                            onChange={form.handleChange}
+                          >
+                            <MenuItem value={1}>1</MenuItem>
+                            <MenuItem value={2}>2</MenuItem>
+                            <MenuItem value={3}>3</MenuItem>
+                            <MenuItem value={4}>4</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          width: "80%",
+                        }}
+                        item
+                        md={12}
+                      >
+                        {/*  add button with icon*/}
+                        <Button
+                          variant={"contained"}
+                          onClick={() => {
+                            selectGoalScores();
+                          }}
+                        >
+                          Add
+                        </Button>
+                      </Grid>
+                      <Grid item md={12}>
+                        <TableContainer component={Paper}>
+                          <Table
+                            sx={{ minWidth: 200 }}
+                            aria-label="simple table"
+                          >
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Player</TableCell>
+                                <TableCell align="right">Goals</TableCell>
+                                <TableCell align="right">Action</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {scoreList.map((row) => (
+                                <TableRow
+                                  key={row.id}
+                                  sx={{
+                                    "&:last-child td, &:last-child th": {
+                                      border: 0,
+                                    },
+                                  }}
+                                >
+                                  <TableCell component="th" scope="row">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell align="right">
+                                    {row.goals}
+                                  </TableCell>
+                                  <TableCell align="right">
+                                    <IconButton
+                                      onClick={() => {
+                                        console.log(row.id);
+                                        setScoreList(
+                                          scoreList.filter(
+                                            (item) => item.id !== row.id
+                                          )
+                                        );
+                                        let player = dupPlayers.find(
+                                          (player) => player.id === row.id
+                                        );
+                                        setPlayers([...players, player]);
+                                        // removeGoalScore(row.id);
+                                      }}
+                                    >
+                                      <DeleteIcon />
+                                    </IconButton>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                )}
               </Grid>
             </form>
           </Grid>
@@ -216,6 +441,11 @@ function CreateMatchDialog(props) {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar open={open.open} autoHideDuration={2000}>
+        <Alert severity="warning" sx={{ width: "100%" }}>
+          {open.message}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 }
