@@ -43,11 +43,13 @@ function Matches(props) {
           <Grid className={Styles.headingButtonArea}>
             <h1 style={{ color: "#ffffff" }}>Matches</h1>
             <Button
+              color={"secondary"}
+              variant="contained"
               onClick={() => {
                 setOpenCreatDialog(true);
               }}
               className={Styles.button}
-              sx={{ background: "white" }}
+              sx={{ color: "white" }}
             >
               Add New Match
             </Button>

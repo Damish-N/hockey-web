@@ -13,15 +13,14 @@ import {
   TextField,
 } from "@mui/material";
 import { useFormik } from "formik";
-import loginService from "../../../services/LoginService";
-import playersServices from "../../../services/PlayersServices";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import dateSetUp from "../../constant/DateSetUp";
 
 function CreateMatchDialog(props) {
-  const dateObject = new Date("2022-03-04T00:00:00Z");
+  const dateObject = new Date();
   const date = dayjs(dateObject); // Convert the Date object to a Day.js object
 
   const validates = (values) => {
@@ -34,15 +33,11 @@ function CreateMatchDialog(props) {
     } else if (values.awaySide.length > 20) {
       errors.awaySide = "Must be 20 characters or less";
     }
-    if (!values.homeGoals) {
-      errors.homeGoals = "Required";
-    } else if (values.homeGoals > 32 || values.homeGoals < 0) {
-      errors.homeGoals = "Must be 32 or less";
+    if (values.homeGoals <= -1) {
+      errors.homeGoals = "Cannot be minus";
     }
-    if (!values.awayGoals) {
-      errors.awayGoals = "Required";
-    } else if (values.awayGoals > 32 || values.awayGoals < 0) {
-      errors.awayGoals = "Must be 32 or less";
+    if (values.awayGoals <= -1) {
+      errors.awayGoals = "Cannot be minus";
     }
     if (!values.time) {
       errors.time = "Required";
@@ -64,44 +59,10 @@ function CreateMatchDialog(props) {
     validate: validates,
     onSubmit: (values) => {
       // setLoading(true);
+      console.log(values);
+      console.log(dateSetUp.format(values.date));
+      // alert(JSON.stringify(values, null, 2));
       form.resetForm();
-      const userData = { email: values.email, password: "12345678" };
-      loginService.register(userData).then(
-        (res) => {
-          if (res.data.user) {
-            console.log(res);
-            const player = { ...values, authId: res.data.user.id };
-            playersServices.createPlayers(player).then(
-              (res) => {
-                console.log(res.status);
-                if (res.status === 201) {
-                  // setOpen(true);
-                  // setLoading(false);
-                  // navigate("/dashboard/players");
-                } else {
-                  console.log("clicked");
-                  // setOpenError(true);
-                  // setLoading(false);
-                }
-              },
-              (error) => {
-                // setOpenError(true);
-                // setLoading(false);
-                console.log(error);
-              }
-            );
-          } else if (res.error) {
-            // setOpenError(true);
-            // setLoading(false);
-            console.log(res.error);
-          }
-        },
-        (error) => {
-          // setOpenError(true);
-          // setLoading(false);
-          console.log(error);
-        }
-      );
     },
   });
   return (
@@ -234,8 +195,25 @@ function CreateMatchDialog(props) {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.changeTheDialogState}>Cancel</Button>
-          <Button onClick={props.changeTheDialogState}>Subscribe</Button>
+          <Button
+            variant={"contained"}
+            color={"secondary"}
+            onClick={() => {
+              props.changeTheDialogState();
+              form.resetForm();
+            }}
+            sx={{ color: "white" }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant={"contained"}
+            onClick={() => {
+              form.handleSubmit([]);
+            }}
+          >
+            Subscribe
+          </Button>
         </DialogActions>
       </Dialog>
     </Grid>
