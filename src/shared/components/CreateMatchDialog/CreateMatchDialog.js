@@ -10,6 +10,7 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Paper,
   Select,
@@ -31,6 +32,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import playersServices from "../../../services/PlayersServices";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dateSetUp from "../../constant/DateSetUp";
+import matchServices from "../../../services/MatchServices";
 
 function CreateMatchDialog(props) {
   const dateObject = new Date();
@@ -41,11 +43,15 @@ function CreateMatchDialog(props) {
   const [homeGoals, setHomeGoals] = useState(0);
   const [currentPlayer, setCurrentPlayer] = useState({});
   const [open, setOpen] = useState({ open: false, message: "" });
+  const [success, setSuccess] = useState({ open: false, message: "" });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     playersServices.getPlayers().then((res) => {
       setPlayers(res.data);
       setDupPlayers(res.data);
+      setLoading(false);
     });
   }, []);
 
@@ -86,6 +92,7 @@ function CreateMatchDialog(props) {
     },
     validate: validates,
     onSubmit: (values) => {
+      setLoading(true);
       if (values.homeGoals > 0 && scoreList.length === 0) {
         setOpen({ open: true, message: "Must add scorers" });
         setTimeout(() => {
@@ -115,8 +122,25 @@ function CreateMatchDialog(props) {
           homeSideGoalScorers: scoreList,
         };
         console.log(matchStats);
+        matchServices.createMatch(matchStats).then((res) => {
+          console.log(res);
+          if (res.status === 201) {
+            props.changeTheDialogState(false);
+            setSuccess({ open: true, message: "Match Created" });
+            setTimeout(() => {
+              setSuccess({ open: false, message: "" });
+            }, 2000);
+          } else {
+            setLoading(false);
+            setOpen({ open: true, message: "Error" });
+            setTimeout(() => {
+              setOpen({ open: false, message: "" });
+            }, 2000);
+          }
+        });
         // alert(JSON.stringify(values, null, 2));
         form.resetForm();
+        setLoading(false);
       }
       // setLoading(true);
     },
@@ -440,10 +464,20 @@ function CreateMatchDialog(props) {
             Subscribe
           </Button>
         </DialogActions>
+        {loading && (
+          <Grid sx={{ width: "100%", margin: "0", top: "10" }}>
+            <LinearProgress sx={{ color: "#750077" }} />
+          </Grid>
+        )}
       </Dialog>
       <Snackbar open={open.open} autoHideDuration={2000}>
         <Alert severity="warning" sx={{ width: "100%" }}>
           {open.message}
+        </Alert>
+      </Snackbar>
+      <Snackbar open={success.open} autoHideDuration={2000}>
+        <Alert severity="success" sx={{ width: "100%" }}>
+          {success.message}
         </Alert>
       </Snackbar>
     </Grid>
