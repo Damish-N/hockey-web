@@ -66,6 +66,8 @@ function Dashboard(props) {
   }, []);
   const navigate = useNavigate();
 
+  //show up format function to whole project
+
   function format(inputDate) {
     let date, month, year;
 

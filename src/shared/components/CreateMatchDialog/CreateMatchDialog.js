@@ -1,26 +1,244 @@
-import React, { useState } from "react";
-import Styles from "./CreateMatchDialog.module.css";
+import React from "react";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
 } from "@mui/material";
+import { useFormik } from "formik";
+import loginService from "../../../services/LoginService";
+import playersServices from "../../../services/PlayersServices";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers";
 
 function CreateMatchDialog(props) {
+  const dateObject = new Date("2022-03-04T00:00:00Z");
+  const date = dayjs(dateObject); // Convert the Date object to a Day.js object
+
+  const validates = (values) => {
+    const errors = {};
+    if (!values.homeSide) {
+      errors.homeSide = "Required";
+    }
+    if (!values.awaySide) {
+      errors.awaySide = "Required";
+    } else if (values.awaySide.length > 20) {
+      errors.awaySide = "Must be 20 characters or less";
+    }
+    if (!values.homeGoals) {
+      errors.homeGoals = "Required";
+    } else if (values.homeGoals > 32 || values.homeGoals < 0) {
+      errors.homeGoals = "Must be 32 or less";
+    }
+    if (!values.awayGoals) {
+      errors.awayGoals = "Required";
+    } else if (values.awayGoals > 32 || values.awayGoals < 0) {
+      errors.awayGoals = "Must be 32 or less";
+    }
+    if (!values.time) {
+      errors.time = "Required";
+    } else if (values.time > 60 || values.time < 0) {
+      errors.time = "Must be 60 or less";
+    }
+    return errors;
+  };
+  const form = useFormik({
+    initialValues: {
+      homeSide: "UOC",
+      awaySide: "",
+      homeGoals: 0,
+      wonBy: "home",
+      awayGoals: 0,
+      date: date,
+      time: 0,
+    },
+    validate: validates,
+    onSubmit: (values) => {
+      // setLoading(true);
+      form.resetForm();
+      const userData = { email: values.email, password: "12345678" };
+      loginService.register(userData).then(
+        (res) => {
+          if (res.data.user) {
+            console.log(res);
+            const player = { ...values, authId: res.data.user.id };
+            playersServices.createPlayers(player).then(
+              (res) => {
+                console.log(res.status);
+                if (res.status === 201) {
+                  // setOpen(true);
+                  // setLoading(false);
+                  // navigate("/dashboard/players");
+                } else {
+                  console.log("clicked");
+                  // setOpenError(true);
+                  // setLoading(false);
+                }
+              },
+              (error) => {
+                // setOpenError(true);
+                // setLoading(false);
+                console.log(error);
+              }
+            );
+          } else if (res.error) {
+            // setOpenError(true);
+            // setLoading(false);
+            console.log(res.error);
+          }
+        },
+        (error) => {
+          // setOpenError(true);
+          // setLoading(false);
+          console.log(error);
+        }
+      );
+    },
+  });
   return (
-    <Dialog open={props.open}>
-      <DialogTitle>Create Match</DialogTitle>
-      <DialogContent>
-        <DialogContentText>Hello</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={props.changeTheDialogState}>Cancel</Button>
-        <Button onClick={props.changeTheDialogState}>Subscribe</Button>
-      </DialogActions>
-    </Dialog>
+    <Grid>
+      <Dialog open={props.open}>
+        <DialogTitle>Create Match</DialogTitle>
+        <DialogContent>
+          {/*<DialogContentText >*/}
+          {/*  */}
+          {/*</DialogContentText>*/}
+          <Grid sx={{ padding: "0.5rem 0.5rem" }}>
+            <form onSubmit={form.handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Home Side
+                    </InputLabel>
+                    <Select
+                      name={"homeSide"}
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={form.values.homeSide}
+                      label="Home Side"
+                      variant="outlined"
+                      onChange={form.handleChange}
+                    >
+                      <MenuItem value={"UOC"}>UOC</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    name={"awaySide"}
+                    fullWidth
+                    id="awaySide"
+                    label="Away Side"
+                    type="text"
+                    variant="outlined"
+                    value={form.values.awaySide}
+                    onChange={form.handleChange}
+                    error={
+                      form.touched.awaySide && Boolean(form.errors.awaySide)
+                    }
+                    helperText={form.touched.awaySide && form.errors.awaySide}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    name={"homeGoals"}
+                    fullWidth
+                    id="homeGoals"
+                    label="Home Goals"
+                    type="number"
+                    variant="outlined"
+                    value={form.values.homeGoals}
+                    onChange={form.handleChange}
+                    error={
+                      form.touched.homeGoals && Boolean(form.errors.homeGoals)
+                    }
+                    helperText={form.touched.homeGoals && form.errors.homeGoals}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    name={"awayGoals"}
+                    fullWidth
+                    id="awayGoals"
+                    label="Away Goals"
+                    type="number"
+                    variant="outlined"
+                    value={form.values.awayGoals}
+                    onChange={form.handleChange}
+                    error={
+                      form.touched.awayGoals && Boolean(form.errors.awayGoals)
+                    }
+                    helperText={form.touched.awayGoals && form.errors.awayGoals}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label-faculty">
+                      Won By
+                    </InputLabel>
+                    <Select
+                      name={"wonBy"}
+                      labelId="demo-simple-select-label-faculty"
+                      id="demo-simple-select-faculty"
+                      value={form.values.wonBy}
+                      label="Won By"
+                      onChange={form.handleChange}
+                    >
+                      <MenuItem value={"home"}>UOC</MenuItem>
+                      <MenuItem value={"away"}>Away</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      id={"date"}
+                      name={"date"}
+                      label="Date"
+                      type="date"
+                      value={form.values.date}
+                      onChange={(date) => form.setFieldValue("date", date)}
+                      // onChange={form.setFieldValue("date", date)}
+                      renderInput={(params) => (
+                        <TextField type="date" {...params} />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    name={"time"}
+                    fullWidth
+                    id="time"
+                    label="Duration (Minutes)"
+                    type="number"
+                    variant="outlined"
+                    value={form.values.time}
+                    onChange={form.handleChange}
+                    error={form.touched.time && Boolean(form.errors.time)}
+                    helperText={form.touched.time && form.errors.time}
+                  />
+                </Grid>
+              </Grid>
+            </form>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={props.changeTheDialogState}>Cancel</Button>
+          <Button onClick={props.changeTheDialogState}>Subscribe</Button>
+        </DialogActions>
+      </Dialog>
+    </Grid>
   );
 }
 
