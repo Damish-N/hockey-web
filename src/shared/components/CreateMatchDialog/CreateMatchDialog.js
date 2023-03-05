@@ -123,6 +123,7 @@ function CreateMatchDialog(props) {
         };
         console.log(matchStats);
         matchServices.createMatch(matchStats).then((res) => {
+          props.changeTheDialogState(false);
           console.log(res);
           if (res.status === 201) {
             props.changeTheDialogState(false);

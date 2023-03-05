@@ -49,7 +49,7 @@ function MatchStats(props) {
               }}
               color={"secondary"}
               icon={<DateRangeIcon />}
-              label="2023-02-03"
+              label={props.match.date}
             />
           </Grid>
           <Grid
@@ -82,7 +82,7 @@ function MatchStats(props) {
                 border: "1px solid #ffffff",
               }}
             >
-              H
+              {props.match.awaySide.slice(0, 1).toUpperCase()}
             </Avatar>
             <Divider></Divider>
             <Chip
@@ -92,12 +92,22 @@ function MatchStats(props) {
                 padding: "0.2rem",
               }}
               size="small"
-              avatar={<Avatar alt="Natacha" src={image} />}
-              label="UOC WON"
+              avatar={
+                props.match.wonBy === "home" ? (
+                  <Avatar alt="Natacha" src={image} />
+                ) : (
+                  <Avatar alt="Natacha">A</Avatar>
+                )
+              }
+              label={
+                props.match.wonBy === "home"
+                  ? "won by " + props.match.homeSide
+                  : "won by " + props.match.awaySide
+              }
             />
           </Grid>
           <Grid item>
-            <Badge badgeContent={"40min"} {...defaultProps} />
+            <Badge badgeContent={props.match.time + "mins"} {...defaultProps} />
           </Grid>
         </Grid>
       </AccordionSummary>
@@ -106,51 +116,54 @@ function MatchStats(props) {
           <Grid item xs={6}>
             <Paper className={Styles.detailsItem}>
               <h3 style={{ textAlign: "center" }}>University Of Colombo</h3>
-              <h2 style={{ textAlign: "center" }}>3</h2>
+              <h2 style={{ textAlign: "center" }}>{props.match.homeGoals}</h2>
             </Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper className={Styles.detailsItem}>
-              <h3 style={{ textAlign: "center" }}>University Of Jaffna</h3>
-              <h2 style={{ textAlign: "center" }}>2</h2>
+              <h3 style={{ textAlign: "center" }}>{props.match.awaySide}</h3>
+              <h2 style={{ textAlign: "center" }}>{props.match.awayGoals}</h2>
             </Paper>
           </Grid>
         </Grid>
         <Divider sx={{ height: "1.5rem" }}></Divider>
-        <Paper className={Styles.detailsItemStat}>
-          <Grid className={Styles.detailsContainer} container>
-            <Chip
-              icon={<PlaceIcon></PlaceIcon>}
-              label="Ground Held"
-              variant="outlined"
-            />
-            <h4 style={{ textAlign: "center" }}>UOC premises</h4>
-          </Grid>
-        </Paper>
-        <Paper className={Styles.detailsItemStat}>
-          <Grid className={Styles.detailsContainer} container>
-            <Chip
-              icon={<ManIcon></ManIcon>}
-              label="Type Of Match"
-              variant="outlined"
-            />
-            <h4 style={{ textAlign: "center" }}>9 A side</h4>
-          </Grid>
-        </Paper>
-        <Paper className={Styles.detailsItemStat}>
-          <Grid className={Styles.detailsContainer} container>
-            <Chip
-              icon={<OndemandVideoIcon></OndemandVideoIcon>}
-              label="Video Link"
-              variant="outlined"
-            />
-            <h6 style={{ textAlign: "center" }}>
-              <Link href={"https://youtu.be/9Em39Nfvlu8"}>
-                https://youtu.be/9Em39Nfvlu8
-              </Link>
-            </h6>
-          </Grid>
-        </Paper>
+        {/*TODO: Ground Held*/}
+        {/*<Paper className={Styles.detailsItemStat}>*/}
+        {/*  <Grid className={Styles.detailsContainer} container>*/}
+        {/*    <Chip*/}
+        {/*      icon={<PlaceIcon></PlaceIcon>}*/}
+        {/*      label="Ground Held"*/}
+        {/*      variant="outlined"*/}
+        {/*    />*/}
+        {/*    <h4 style={{ textAlign: "center" }}>UOC premises</h4>*/}
+        {/*  </Grid>*/}
+        {/*</Paper>*/}
+        {/*TODO: Type of match*/}
+        {/*<Paper className={Styles.detailsItemStat}>*/}
+        {/*  <Grid className={Styles.detailsContainer} container>*/}
+        {/*    <Chip*/}
+        {/*      icon={<ManIcon></ManIcon>}*/}
+        {/*      label="Type Of Match"*/}
+        {/*      variant="outlined"*/}
+        {/*    />*/}
+        {/*    <h4 style={{ textAlign: "center" }}>9 A side</h4>*/}
+        {/*  </Grid>*/}
+        {/*</Paper>*/}
+        {/*TODO: Video Link*/}
+        {/*<Paper className={Styles.detailsItemStat}>*/}
+        {/*  <Grid className={Styles.detailsContainer} container>*/}
+        {/*    <Chip*/}
+        {/*      icon={<OndemandVideoIcon></OndemandVideoIcon>}*/}
+        {/*      label="Video Link"*/}
+        {/*      variant="outlined"*/}
+        {/*    />*/}
+        {/*    <h6 style={{ textAlign: "center" }}>*/}
+        {/*      <Link href={"https://youtu.be/9Em39Nfvlu8"}>*/}
+        {/*        https://youtu.be/9Em39Nfvlu8*/}
+        {/*      </Link>*/}
+        {/*    </h6>*/}
+        {/*  </Grid>*/}
+        {/*</Paper>*/}
         <Paper className={Styles.detailsItemStat}>
           <Accordion>
             <AccordionSummary
@@ -167,21 +180,16 @@ function MatchStats(props) {
               </Grid>
             </AccordionSummary>
             <AccordionDetails className={Styles.goals}>
-              <Chip
-                icon={<SportsSoccer></SportsSoccer>}
-                label="2-Damish"
-                variant="outlined"
-              />
-              <Chip
-                icon={<SportsSoccer></SportsSoccer>}
-                label="2-Herath"
-                variant="outlined"
-              />
-              <Chip
-                icon={<SportsSoccer></SportsSoccer>}
-                label="2-Damish"
-                variant="outlined"
-              />
+              {props.match.homeSideGoalScorers.map((goal, index) => {
+                return (
+                  <Chip
+                    key={index}
+                    icon={<SportsSoccer></SportsSoccer>}
+                    label={goal.goals + "-" + goal.name}
+                    variant="outlined"
+                  />
+                );
+              })}
             </AccordionDetails>
           </Accordion>
         </Paper>

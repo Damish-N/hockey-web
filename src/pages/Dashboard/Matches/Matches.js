@@ -39,6 +39,7 @@ function Matches(props) {
       .then((data) => {
         if (data.status === 200) {
           setMatches(data.data);
+          console.log(data.data);
         } else {
           console.log(data.error);
         }
@@ -149,7 +150,6 @@ function Matches(props) {
           changeTheDialogState={changeDialogState}
         ></CreateMatchDialog>
       </Grid>
-      )}
     </Grid>
   );
 }
