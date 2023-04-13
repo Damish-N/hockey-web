@@ -11,6 +11,7 @@ import CashMangement from "./pages/Dashboard/CashMangement/CashMangement";
 import { useState } from "react";
 import Context from "./shared/context/Context";
 import ViewPlayers from "./pages/Dashboard/Players/ViewPlayers/ViewPlayers";
+import Attendent from "./pages/Attendent/Attendent";
 
 const theme = createTheme({
   palette: {
@@ -90,6 +91,7 @@ function App() {
             path="/login"
             element={<Login changeState={changeStateOnApp} />}
           />
+          <Route path="/attendance" element={<Attendent />} />
         </Routes>
       </Context.Provider>
       {/*<Grid className="App">*/}
