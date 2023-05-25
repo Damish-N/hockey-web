@@ -1,111 +1,112 @@
 .LoginContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    /*width: 100vw;*/
-    background-color: #F3F3F3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /*width: 100vw;*/
+  background-color: #f3f3f3;
 }
 
 .LoginContainer .LoginBox {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 62%;
-    width: 35%;
-    background-color: #FFFFFF;
-    border-radius: 10px;
-    padding: 1.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 62%;
+  width: 35%;
+  background-color: #ffffff;
+  border-radius: 10px 10px 0 0;
+  /*padding: 0rem 0rem 0.5rem 0rem;*/
 }
 
-
 .LoginContainer .LoginBox .LoginHeading {
-    height: calc(30% - 2.5rem);
-
+  height: calc(30% - 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .LoginHeading h4 {
-    padding: 0;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    font-weight: bolder;
-    font-size: 1.2rem;
-    line-height: 25px;
-    color: #750077;
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: bolder;
+  font-size: 1.2rem;
+  line-height: 25px;
+  color: #750077;
 }
 
 .LoginHeading h6 {
-    padding: 0;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    font-weight: bolder;
-    font-size: 0.6rem;
-    color: rgba(117, 0, 119, 0.5);
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: bolder;
+  font-size: 0.6rem;
+  color: rgba(117, 0, 119, 0.5);
 }
 
 .logo {
-    height: 80px;
-    width: auto;
+  height: 80px;
+  width: auto;
+  margin: 0 0 0 0;
 }
 
 .LoginForm {
-    margin-top: 25px;
-    height: 70%;
-    width: 100%;
-    /*background-color: red;*/
+  margin-top: 25px;
+  height: 70%;
+  width: 100%;
+  /*background-color: red;*/
 }
 
 .input {
-
 }
 
 .input:focus {
-    /*background-color: forestgreen;*/
+  /*background-color: forestgreen;*/
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    margin-top: 15px;
-    /*background-color: red;*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin-top: 15px;
+  /*background-color: red;*/
 }
 
 .forgetPassword {
-    margin-top: 05px;
-    display: flex;
-    justify-items: center;
-    justify-content: center;
-    align-items: center;
+  margin-top: 05px;
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .forgetPassword h6 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    font-size: 0.7rem;
-    color: rgba(117, 0, 119, 0.5);
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: rgba(117, 0, 119, 0.5);
 }
 
 .reset {
-    margin: 0 10px;
-    font-weight: bolder;
+  margin: 0 10px;
+  font-weight: bolder;
 }
 
 .btnSubmit:hover {
-    background-color: #750077;
+  background-color: #750077;
 }
 
 /*media screen less than medium size*/
 @media screen and (max-width: 768px) {
-    .LoginContainer .LoginBox {
-        width: 80%;
-    }
+  .LoginContainer .LoginBox {
+    width: 80%;
+  }
 
-    .form {
-        margin-top: calc(1.5rem + 10px);
-    }
+  .form {
+    margin-top: calc(1.5rem + 10px);
+  }
 }

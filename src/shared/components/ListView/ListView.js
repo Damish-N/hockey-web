@@ -1,6 +1,7 @@
 import React from "react";
 import Styles from "./ListView.module.css";
 import { Grid } from "@material-ui/core";
+import playersServices from "../../../services/PlayersServices";
 
 function ListView(props) {
   let d = new Date().toLocaleDateString("de-DE");
@@ -15,6 +16,13 @@ function ListView(props) {
     weekday: "long",
   });
 
+  function updateTodo(todo) {
+    console.log(todo);
+    playersServices.updateTask(todo).then((data) => {
+      console.log(data);
+    });
+  }
+
   return (
     <Grid>
       <Grid className={Styles.frame}>
@@ -26,22 +34,21 @@ function ListView(props) {
           <ul className={Styles.todo_cmp__list}>
             {props.list.map((todo, key) => {
               return (
-                todo.status === "pending" && (
-                  <li key={key}>
-                    <label htmlFor={key}>
-                      <input
-                        id={key}
-                        type="checkbox"
-                        onClick={() => {
-                          todo.status = "completed";
-                          console.log(todo);
-                        }}
-                      ></input>
-                      {/*<span>{todo.task}</span>*/}
-                      <span>{todo.detail}</span>
-                    </label>
-                  </li>
-                )
+                <li key={key}>
+                  <label htmlFor={key}>
+                    <input
+                      id={key}
+                      type="checkbox"
+                      onClick={() => {
+                        updateTodo(todo);
+                        todo.status = "completed";
+                        console.log(todo);
+                      }}
+                    ></input>
+                    {/*<span>{todo.task}</span>*/}
+                    <span>{todo.detail}</span>
+                  </label>
+                </li>
               );
             })}
           </ul>
