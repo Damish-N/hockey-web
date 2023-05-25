@@ -51,7 +51,7 @@ function NavBar(props) {
         <Link
           style={{ textDecoration: "none" }}
           className={style.linkStyle}
-          to={"/"}
+          to={"/news"}
         >
           <h3>News & Events</h3>
         </Link>

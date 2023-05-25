@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import CreatePlayers from "./pages/Dashboard/Players/CreatePlayers/CreatePlayers";
 import Matches from "./pages/Dashboard/Matches/Matches";
 import CashMangement from "./pages/Dashboard/CashMangement/CashMangement";
+import News from "./pages/News/News";
 import { useState } from "react";
 import Context from "./shared/context/Context";
 import ViewPlayers from "./pages/Dashboard/Players/ViewPlayers/ViewPlayers";
@@ -70,6 +71,7 @@ function App() {
           >
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/news" element={<News />} />
             <Route
               path="/dashboard"
               element={<PrivateRoute component={Dashboard} />}
