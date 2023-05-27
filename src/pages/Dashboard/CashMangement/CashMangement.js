@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Table, TableBody, TableContainer } from "@mui/material";
+import { Chip, Grid, Table, TableBody, TableContainer } from "@mui/material";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import VerticalAlignTopIcon from "@mui/icons-material/VerticalAlignTop";
 import CardViewForCash from "../../../shared/components/CardViewForCash/CardViewForCash";
@@ -14,33 +14,50 @@ function CashMangement(props) {
   const [transaction, setTransaction] = useState([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
+  const [transactionArray, setTransactionArray] = useState([]);
   const columns = [
-    { id: "id", label: "Transaction ID", minWidth: 100 },
-    { id: "date", label: "Date", minWidth: 100 },
+    { id: "id", label: "Transaction ID", minWidth: 100, align: "left" },
+    { id: "date", label: "Date", minWidth: 100, align: "center" },
     {
       id: "description",
       label: "Description",
       minWidth: 100,
+      align: "center",
     },
-    { id: "amount", label: "Amount", minWidth: 50 },
+    { id: "amount", label: "Amount", minWidth: 50, align: "center" },
     {
-      id: "active",
-      label: "Active",
+      id: "status",
+      label: "Status",
       minWidth: 170,
       buttons: [
         { id: "true", label: "yes" },
         { id: "false", label: "No" },
       ],
+      align: "center",
     },
-    { id: "total", label: "Total", minWidth: 100 },
+    { id: "total", label: "Total", minWidth: 100, align: "center" },
+    {
+      id: "view",
+      label: "View",
+      minWidth: 100,
+      buttons: [
+        {
+          id: "view",
+          label: "View",
+        },
+      ],
+      align: "center",
+    },
   ];
   const createRows = (transaction) => {
     // console.log(transaction);
     const rows = [];
+    let val = total;
     transaction.forEach((element) => {
+      console.log(element.amount);
       //set previous value and add current value
       setTotal((total) => total + element.amount);
-      let val = total;
+      val = val + element.amount;
       console.log(val);
       rows.push(
         createData(
@@ -55,6 +72,7 @@ function CashMangement(props) {
     });
     return rows;
   };
+
   function createData(id, date, description, amount, active, total) {
     return { id, date, description, amount, active, total };
   }
@@ -134,36 +152,40 @@ function CashMangement(props) {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={key}>
                       <TableCell align="left">{row.id}</TableCell>
-                      <TableCell align="left">{row.date}</TableCell>
-                      <TableCell align="left">{row.description}</TableCell>
-                      <TableCell align="left">{row.amount}</TableCell>
-                      <TableCell align="left">
-                        {row.active === "true" ? (
-                          <Button
-                            variant="contained"
-                            disabled={true}
+                      <TableCell align="center">{row.date}</TableCell>
+                      <TableCell align="center">{row.description}</TableCell>
+                      <TableCell align="center">{row.amount}</TableCell>
+                      <TableCell align="center">
+                        {row.amount > 0 ? (
+                          <Chip
+                            label={"Credit"}
                             style={{
-                              background: "#66BB6A",
+                              background: "#5aa82b",
                               color: "white",
                             }}
-                          >
-                            YES
-                          </Button>
+                          />
                         ) : (
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            disabled={true}
+                          <Chip
+                            label={"Debit"}
                             style={{
-                              background: "#EB0014",
+                              background: "rgba(213,151,38,0.82)",
                               color: "white",
                             }}
-                          >
-                            NO
-                          </Button>
+                          />
                         )}
                       </TableCell>
-                      <TableCell align="left">{row.total}</TableCell>
+                      <TableCell align="center">{row.total}</TableCell>
+                      <TableCell align="center">
+                        <Button
+                          variant="contained"
+                          style={{
+                            background: "#750077FF",
+                            color: "white",
+                          }}
+                        >
+                          View
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
