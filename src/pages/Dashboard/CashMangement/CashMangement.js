@@ -98,19 +98,20 @@ function CashMangement(props) {
           element.description,
           element.amount,
           element.active,
-          val
+          val,
+          element.url
         )
       );
     });
     return rows;
   };
 
-  function createData(id, date, description, amount, active, total) {
-    return { id, date, description, amount, active, total };
+  function createData(id, date, description, amount, active, total, url) {
+    return { id, date, description, amount, active, total, url };
   }
 
   useEffect(() => {
-    cashManagementServices.getTransactions().then((res) => {
+    cashManagementServices.getTransactionWithUser().then((res) => {
       console.log(res);
       if (res.status === 200) {
         const rows = createRows(res.data);
