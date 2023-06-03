@@ -16,7 +16,7 @@ export class CashManagementServices {
   async getTransactionWithUser() {
     // const query = `select * from "transactions" inner join "players" on transactions.created = players."authId"`;
     const response = await this.supabase
-      .from("transactionwithuser")
+      .from("transactionwithauthuser")
       .select("*");
     return response;
   }

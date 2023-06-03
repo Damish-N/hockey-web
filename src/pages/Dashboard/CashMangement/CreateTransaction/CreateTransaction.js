@@ -36,7 +36,7 @@ function CreateTransaction(props) {
   const [openError, setOpenError] = useState(false);
   const [message, setMessage] = useState("");
   let imageBase =
-    "https://tjelkiwfbrbhhugapbkk.supabase.co/storage/v1/object/public/images/";
+    "https://tjelkiwfbrbhhugapbkk.supabase.co/storage/v1/object/public/images/receipts/";
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -84,32 +84,34 @@ function CreateTransaction(props) {
           url: imageBase + nameOfId,
           created: currentUser.id,
         };
-        cashManagementServices.putSlip(nameOfId, setImg).then((res) => {
-          console.log(res);
-          if (res.data) {
-            cashManagementServices
-              .insertCashManagement(transaction)
-              .then((result) => {
-                if (result.status === 201) {
-                  setOpen(true);
-                  setLoading(false);
-                  setMessage("Transaction Added Successfully");
-                  setImgState({
-                    imageUrl: defaultImage,
-                    imageObject: null,
-                  });
-                } else {
-                  setOpenError(true);
-                  setLoading(false);
-                  setMessage(result.error.details);
-                }
-              });
-          } else {
-            setOpenError(true);
-            setLoading(false);
-            setMessage(res.error.message);
-          }
-        });
+        cashManagementServices
+          .putSlip(nameOfId, setImg.imageObject)
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              cashManagementServices
+                .insertCashManagement(transaction)
+                .then((result) => {
+                  if (result.status === 201) {
+                    setOpen(true);
+                    setLoading(false);
+                    setMessage("Transaction Added Successfully");
+                    setImgState({
+                      imageUrl: defaultImage,
+                      imageObject: null,
+                    });
+                  } else {
+                    setOpenError(true);
+                    setLoading(false);
+                    setMessage(result.error.details);
+                  }
+                });
+            } else {
+              setOpenError(true);
+              setLoading(false);
+              setMessage(res.error.message);
+            }
+          });
       } else {
         console.log("no image");
         let transaction = {
@@ -157,7 +159,7 @@ function CreateTransaction(props) {
     //reader set results to variable
     reader.onload = () => {
       fileContent = reader.result;
-      setImgState({ imageUrl: fileContent, imageObject: file });
+      setImgState({ imageUrl: fileContent, imageObject: e.target.files[0] });
       console.log(reader.result);
     };
   }
