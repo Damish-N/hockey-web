@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import x from "../../src/asserts/logo.png";
 
 export class CashManagementServices {
   constructor() {
@@ -10,6 +11,31 @@ export class CashManagementServices {
   async getTransactions() {
     const res = await this.supabase.from("transactions").select("*");
     return res;
+  }
+
+  async getTransactionWithUser() {
+    // const query = `select * from "transactions" inner join "players" on transactions.created = players."authId"`;
+    const response = await this.supabase
+      .from("transactionwithuser")
+      .select("*");
+    return response;
+  }
+
+  async putSlip(nameOfId, data) {
+    console.log(data);
+    const response = await this.supabase.storage
+      .from("images")
+      .upload("receipts/" + nameOfId, data, {
+        cacheControl: "3600",
+        upsert: false,
+        contentType: "image/png",
+      });
+    return response;
+  }
+
+  async insertCashManagement(data) {
+    const response = await this.supabase.from("transactions").insert(data);
+    return response;
   }
 }
 

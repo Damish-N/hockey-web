@@ -5,16 +5,28 @@ import VerticalAlignTopIcon from "@mui/icons-material/VerticalAlignTop";
 import CardViewForCash from "../../../shared/components/CardViewForCash/CardViewForCash";
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import Styles from "../CashMangement/CashMangement.module.css";
-import { Button, TableCell, TableHead, TableRow } from "@material-ui/core";
+import {
+  Button,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from "@material-ui/core";
 import cashManagementServices from "../../../services/CashManagementServices";
+import { useNavigate } from "react-router-dom";
 
 function CashMangement(props) {
+  const navigate = useNavigate();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [transaction, setTransaction] = useState([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
-  const [transactionArray, setTransactionArray] = useState([]);
+  const [transactionArray, setTransactionArray] = useState({
+    credit: 0,
+    debit: 0,
+    total: 0,
+  });
   const columns = [
     { id: "id", label: "Transaction ID", minWidth: 100, align: "left" },
     { id: "date", label: "Date", minWidth: 100, align: "center" },
@@ -49,12 +61,32 @@ function CashMangement(props) {
       align: "center",
     },
   ];
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   const createRows = (transaction) => {
     // console.log(transaction);
     const rows = [];
     let val = total;
     transaction.forEach((element) => {
       console.log(element.amount);
+      if (element.amount > 0) {
+        setTransactionArray((transactionArray) => ({
+          ...transactionArray,
+          credit: transactionArray.credit + element.amount,
+          total: transactionArray.total + element.amount,
+        }));
+      } else if (element.amount < 0) {
+        setTransactionArray((transactionArray) => ({
+          ...transactionArray,
+          debit: transactionArray.debit + element.amount,
+          total: transactionArray.total + element.amount,
+        }));
+      }
       //set previous value and add current value
       setTotal((total) => total + element.amount);
       val = val + element.amount;
@@ -96,19 +128,19 @@ function CashMangement(props) {
         <CardViewForCash
           contentColor={"green"}
           contentTitle={"Credit Amount"}
-          contentValue={"32500.50"}
+          contentValue={"Rs: " + transactionArray.credit}
           contentIcon={<VerticalAlignBottomIcon />}
         ></CardViewForCash>
         <CardViewForCash
           contentColor={"red"}
           contentTitle={"Debit Amount"}
-          contentValue={"15800.50"}
+          contentValue={"Rs: " + transactionArray.debit}
           contentIcon={<VerticalAlignTopIcon />}
         ></CardViewForCash>
         <CardViewForCash
           contentColor={"orange"}
           contentTitle={"Total Amount"}
-          contentValue={"32500.50"}
+          contentValue={"Rs: " + transactionArray.total}
           contentIcon={<LocalAtmIcon />}
         ></CardViewForCash>
       </Grid>
@@ -122,9 +154,7 @@ function CashMangement(props) {
         <Button
           variant="contained"
           style={{ background: "#750077FF", color: "white" }}
-          onClick={() => {
-            console.log("clicked management");
-          }}
+          onClick={() => navigate("createTransaction")}
         >
           Add a transaction
         </Button>
@@ -191,6 +221,15 @@ function CashMangement(props) {
                 })}
             </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25, 100]}
+            component="div"
+            count={transaction.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
       </Grid>
     </Grid>
