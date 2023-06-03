@@ -11,6 +11,8 @@ import CashMangement from "./pages/Dashboard/CashMangement/CashMangement";
 import { useState } from "react";
 import Context from "./shared/context/Context";
 import ViewPlayers from "./pages/Dashboard/Players/ViewPlayers/ViewPlayers";
+import Attendent from "./pages/Attendent/Attendent";
+import CreateTransaction from "./pages/Dashboard/CashMangement/CreateTransaction/CreateTransaction";
 
 const theme = createTheme({
   palette: {
@@ -83,13 +85,24 @@ function App() {
               element={<PrivateRoute component={CreatePlayers} />}
             />
             {/*<Route path="/dashboard/players" element={<CreatePlayers />} />*/}
-            <Route path="/dashboard/matches" element={<Matches />} />
-            <Route path="/dashboard/cash" element={<CashMangement />} />
+            <Route
+              path="/dashboard/matches"
+              element={<PrivateRoute component={Matches} />}
+            />
+            <Route
+              path="/dashboard/cash"
+              element={<PrivateRoute component={CashMangement} />}
+            />
+            <Route
+              path="/dashboard/cash/createTransaction"
+              element={<PrivateRoute component={CreateTransaction} />}
+            />
           </Route>
           <Route
             path="/login"
             element={<Login changeState={changeStateOnApp} />}
           />
+          <Route path="/attendance" element={<Attendent />} />
         </Routes>
       </Context.Provider>
       {/*<Grid className="App">*/}
