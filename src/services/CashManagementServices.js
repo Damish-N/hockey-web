@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import x from "../../src/asserts/logo.png";
 
 export class CashManagementServices {
   constructor() {
@@ -35,6 +34,11 @@ export class CashManagementServices {
 
   async insertCashManagement(data) {
     const response = await this.supabase.from("transactions").insert(data);
+    return response;
+  }
+
+  async getCashAmount() {
+    const response = await this.supabase.rpc("getTotalAmount");
     return response;
   }
 }

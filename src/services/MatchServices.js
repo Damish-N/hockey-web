@@ -21,11 +21,16 @@ export class MatchServices {
       .from("matches")
       .select("*")
       .eq("id", id);
-    return data;
+    return { data, error };
   }
   //    create match
   async createMatch(match) {
     const res = await this.supabase.from("matches").insert(match);
+    return res;
+  }
+
+  async getNumberOfMatches() {
+    const res = await this.supabase.rpc("getNumberOfMatches");
     return res;
   }
 }

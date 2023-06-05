@@ -26,9 +26,13 @@ import { useNavigate } from "react-router-dom";
 import playersServices from "../../services/PlayersServices";
 import LoadingComponent from "../../shared/components/LoadingComponent/LoadingComponent";
 import GenrateUUID from "../../shared/constant/GenrateUUID";
+import matchServices from "../../services/MatchServices";
+import cashManagementServices from "../../services/CashManagementServices";
 
 function Dashboard(props) {
   const [noOfPlayers, setNoOfPlayers] = useState(0);
+  const [noOfMatches, setNoOfMatches] = useState(0);
+  const [cash, setCash] = useState(0);
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState([]);
   const [selected, setSelected] = useState({});
@@ -36,6 +40,12 @@ function Dashboard(props) {
   useEffect(() => {
     playersServices.getNoPlayers().then((res) => {
       setNoOfPlayers(res.data);
+    });
+    matchServices.getNumberOfMatches().then((res) => {
+      setNoOfMatches(res.data);
+    });
+    cashManagementServices.getCashAmount().then((res) => {
+      setCash(res.data);
     });
     playersServices.getTasks().then((res) => {
       if (res.status === 200) {
@@ -324,7 +334,7 @@ function Dashboard(props) {
               }}
             ></CardView>
             <CardView
-              value={25}
+              value={noOfMatches}
               childComponent={"ViewDayIcon"}
               description={"SEASONED PLAYED MATCHES"}
               onClick={() => {
@@ -332,7 +342,7 @@ function Dashboard(props) {
               }}
             ></CardView>
             <CardView
-              value={25650}
+              value={cash}
               childComponent={"MonetizationOnIcon"}
               description={"HASH IN HAND"}
               onClick={() => {
